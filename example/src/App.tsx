@@ -1,31 +1,32 @@
 import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import {
+  createStackNavigator,
+  StackNavigationProp,
+} from '@react-navigation/stack';
+import Button from './screens/Button';
+import Home from './screens/Home';
+import Icon from './screens/Icon';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'senyum-uikit';
+export type RootStackParamList = {
+  Home: undefined;
+  Button: undefined;
+  Icon: undefined;
+};
+
+export type RootStackScreenProps<T extends keyof RootStackParamList> =
+  StackNavigationProp<RootStackParamList, T>;
+
+const Stack = createStackNavigator();
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
-  }, []);
-
   return (
-    <View style={styles.container}>
-      <Text>Result: {result}</Text>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Button" component={Button} />
+        <Stack.Screen name="Icon" component={Icon} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
-  },
-});
