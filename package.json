@@ -64,6 +64,8 @@
     "react": "17.0.2",
     "react-native": "0.68.2",
     "react-native-builder-bob": "^0.18.3",
+    "react-native-svg": "^13.3.0",
+    "react-native-svg-transformer": "^1.0.0",
     "release-it": "^15.0.0",
     "typescript": "^4.5.2"
   },
@@ -72,7 +74,9 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-svg": "*",
+    "react-native-svg-transformer": "*"
   },
   "jest": {
     "preset": "react-native",

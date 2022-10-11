@@ -1,3 +1,8 @@
-export function multiply(a: number, b: number): Promise<number> {
-  return Promise.resolve(a * b);
-}
+import { Color } from './base/color';
+import { FontSize } from './base/font';
+import { Icon } from './base/icon';
+import { Shadow } from './base/shadow';
+import { Spacing } from './base/spacing';
+import Button from './components/Button';
+
+export { Color, FontSize, Icon, Shadow, Spacing, Button };
