@@ -11,6 +11,7 @@ const CheckboxExample = () => {
   const [isChecked6, setIsChecked6] = useState<boolean>(false);
   const [isChecked7, setIsChecked7] = useState<boolean>(true);
   const [isChecked8, setIsChecked8] = useState<boolean>(true);
+  const [isChecked9, setIsChecked9] = useState<boolean>(false);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -53,8 +54,9 @@ const CheckboxExample = () => {
             status={isChecked6 ? 'checked' : 'unchecked'}
             label="Custom checkbox"
             style={styles.checkboxStyle}
-            color={Color.hightlight[2]}
+            borderColor={Color.hightlight[2]}
             backgroundColor={Color.orange[7]}
+            checkColor={Color.hightlight[2]}
             onPress={() => setIsChecked6(!isChecked6)}
           />
           <Checkbox
@@ -71,6 +73,16 @@ const CheckboxExample = () => {
             bordered={false}
             disabled
             onPress={() => setIsChecked8(isChecked8)}
+          />
+          <Checkbox
+            status={isChecked9 ? 'checked' : 'unchecked'}
+            label="Custom solid checkbox"
+            style={styles.checkboxStyle}
+            borderColor={Color.hightlight[2]}
+            backgroundColor={Color.hightlight[2]}
+            checkColor={Color.light[1]}
+            bordered={false}
+            onPress={() => setIsChecked9(!isChecked9)}
           />
         </View>
       </ScrollView>

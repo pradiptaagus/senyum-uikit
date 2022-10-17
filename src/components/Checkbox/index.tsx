@@ -18,9 +18,9 @@ type CheckboxProps = {
   disabled?: boolean;
   onPress?: () => void;
   testID?: string;
-  color?: string;
+  borderColor?: string;
   backgroundColor?: string;
-  uncheckedColor?: string;
+  checkColor?: string;
   style?: ViewStyle;
   label?: string;
   labelStyle?: TextStyle;
@@ -39,8 +39,9 @@ const Checkbox = (props: CheckboxProps) => {
     disabled,
     onPress,
     testID,
-    color,
+    borderColor,
     backgroundColor,
+    checkColor,
     style,
     label,
     labelStyle,
@@ -62,11 +63,11 @@ const Checkbox = (props: CheckboxProps) => {
           ...styles.disabledSolidCheckbox,
         };
       }
-    } else if (color || backgroundColor) {
-      if (color) {
+    } else if (borderColor || backgroundColor) {
+      if (borderColor) {
         currentStyle = {
           ...currentStyle,
-          borderColor: color,
+          borderColor: borderColor,
         };
       }
       if (backgroundColor) {
@@ -84,7 +85,7 @@ const Checkbox = (props: CheckboxProps) => {
       }
     }
     return currentStyle;
-  }, [disabled, bordered, color, backgroundColor]);
+  }, [disabled, bordered, borderColor, backgroundColor]);
 
   const checkStyle = useMemo(() => {
     let currentStyle: ViewStyle = { ...styles.check };
@@ -94,10 +95,10 @@ const Checkbox = (props: CheckboxProps) => {
           ...currentStyle,
           ...styles.disabledCheck,
         };
-      } else if (color) {
+      } else if (checkColor) {
         currentStyle = {
           ...currentStyle,
-          borderColor: color,
+          borderColor: checkColor,
         };
       } else {
         currentStyle = {
@@ -105,10 +106,10 @@ const Checkbox = (props: CheckboxProps) => {
           ...styles.disabledSolidCheck,
         };
       }
-    } else if (color) {
+    } else if (checkColor) {
       currentStyle = {
         ...currentStyle,
-        borderColor: color,
+        borderColor: checkColor,
       };
     } else {
       if (!bordered) {
@@ -119,7 +120,7 @@ const Checkbox = (props: CheckboxProps) => {
       }
     }
     return currentStyle;
-  }, [disabled, bordered, color]);
+  }, [disabled, bordered, checkColor]);
 
   return (
     <View
