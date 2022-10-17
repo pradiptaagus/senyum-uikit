@@ -6,11 +6,11 @@ import {
   TextStyle,
   ViewStyle,
 } from 'react-native';
-import { FontSize } from '../../base/font';
-import { Color } from '../../base/color';
-import { Shadow } from '../../base/shadow';
-import { Icon } from '../../base/icon';
-import { Spacing } from '../../base/spacing';
+import { FontSize } from '../../base/Font';
+import { Color } from '../../base/Color';
+import { Shadow } from '../../base/Shadow';
+import { Icon } from '../../base/Icon';
+import { Spacing } from '../../base/Spacing';
 
 type ButtonProps = {
   size?: 'small' | 'medium' | 'large';
@@ -134,7 +134,7 @@ const Button = (props: ButtonProps) => {
       return styles.largeButton;
     }
     return styles.mediumButton;
-  }, []);
+  }, [size]);
 
   const buttonTextSize = useMemo(() => {
     if (size === 'small') {
@@ -143,7 +143,7 @@ const Button = (props: ButtonProps) => {
       return styles.largeButtonText;
     }
     return styles.mediumButtonText;
-  }, []);
+  }, [size]);
 
   const button: ViewStyle = useMemo(() => {
     if (!isPressIn && buttonColor) {
@@ -190,7 +190,7 @@ const Button = (props: ButtonProps) => {
       }
     }
     return {};
-  }, [isPressIn]);
+  }, [activeButtonColor, bordered, buttonColor, disabled, variant, isPressIn]);
 
   const buttonTextColor: TextStyle = useMemo(() => {
     if (!isPressIn && textColor) {
@@ -233,7 +233,7 @@ const Button = (props: ButtonProps) => {
       }
     }
     return {};
-  }, [isPressIn]);
+  }, [activeTextColor, bordered, disabled, textColor, variant, isPressIn]);
 
   return (
     <Pressable
