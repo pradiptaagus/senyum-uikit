@@ -7,10 +7,12 @@ import {
 import Button from './screens/Button';
 import Home from './screens/Home';
 import Icon from './screens/Icon';
+import Checkbox from './screens/Checkbox';
 
 export type RootStackParamList = {
   Home: undefined;
   Button: undefined;
+  Checkbox: undefined;
   Icon: undefined;
 };
 
@@ -25,6 +27,7 @@ export default function App() {
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Button" component={Button} />
+        <Stack.Screen name="Checkbox" component={Checkbox} />
         <Stack.Screen name="Icon" component={Icon} />
       </Stack.Navigator>
     </NavigationContainer>
