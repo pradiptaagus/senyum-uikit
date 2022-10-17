@@ -23,7 +23,7 @@ const Item = ({ title, onPress }: ItemProps) => (
   </Pressable>
 );
 
-const Separator = () => <View style={styles.separator}></View>;
+const Separator = () => <View style={styles.separator} />;
 
 const Home = () => {
   const navigation = useNavigation<RootStackScreenProps<'Home'>>();
