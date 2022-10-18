@@ -8,12 +8,14 @@ import Button from './screens/Button';
 import Home from './screens/Home';
 import Icon from './screens/Icon';
 import Checkbox from './screens/Checkbox';
+import Radio from './screens/Radio';
 
 export type RootStackParamList = {
   Home: undefined;
   Button: undefined;
   Checkbox: undefined;
   Icon: undefined;
+  Radio: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
@@ -29,6 +31,7 @@ export default function App() {
         <Stack.Screen name="Button" component={Button} />
         <Stack.Screen name="Checkbox" component={Checkbox} />
         <Stack.Screen name="Icon" component={Icon} />
+        <Stack.Screen name="Radio" component={Radio} />
       </Stack.Navigator>
     </NavigationContainer>
   );

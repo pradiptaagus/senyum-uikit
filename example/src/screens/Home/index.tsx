@@ -15,7 +15,7 @@ type ItemProps = {
   onPress: () => void;
 };
 
-const data = ['Button', 'Input', 'Checkbox', 'Icon'];
+const data = ['Button', 'Input', 'Checkbox', 'Icon', 'Radio'];
 
 const Item = ({ title, onPress }: ItemProps) => (
   <Pressable style={styles.item} onPress={onPress}>
