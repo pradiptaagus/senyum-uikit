@@ -6,6 +6,7 @@ import {
   View,
   ViewStyle,
   Text,
+  StyleProp,
 } from 'react-native';
 import { FontSize } from '../../base/Font';
 import { Color } from '../../base/Color';
@@ -22,9 +23,9 @@ type RadioProps = {
   backgroundColor?: string;
   checkedBorderColor?: string;
   checkedBackgroundColor?: string;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
   label?: string;
-  labelStyle?: TextStyle;
+  labelStyle?: StyleProp<TextStyle>;
   position?: 'leading' | 'trailing';
 };
 
@@ -92,20 +93,9 @@ const Radio = (props: RadioProps) => {
   ]);
 
   return (
-    <View
-      style={{
-        ...styles.container,
-        ...style,
-      }}
-    >
+    <View style={[styles.container, style]}>
       {position === 'trailing' && label && (
-        <Text
-          style={{
-            ...styles.label,
-            ...styles.trailingLabel,
-            ...labelStyle,
-          }}
-        >
+        <Text style={[styles.label, styles.trailingLabel, labelStyle]}>
           {label}
         </Text>
       )}
@@ -115,13 +105,7 @@ const Radio = (props: RadioProps) => {
         testID={testID}
       />
       {(!position || position === 'leading') && label && (
-        <Text
-          style={{
-            ...styles.label,
-            ...styles.leadingLabel,
-            ...labelStyle,
-          }}
-        >
+        <Text style={[styles.label, styles.leadingLabel, labelStyle]}>
           {label}
         </Text>
       )}

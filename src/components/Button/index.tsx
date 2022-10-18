@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import {
   Pressable,
+  StyleProp,
   StyleSheet,
   Text,
   TextStyle,
@@ -28,13 +29,16 @@ type ButtonProps = {
   textColor?: string;
   activeTextColor?: string;
   variant?: ButtonVariant;
-  style?: ViewStyle;
-  labelStyle?: TextStyle;
+  style?: StyleProp<ViewStyle>;
+  labelStyle?: StyleProp<TextStyle>;
   accessibilityLabel?: string;
   accessibilityHint?: string;
   testID?: string;
   icon?: keyof typeof Icon;
   iconPosition?: ButtonIconPosition;
+  onPress?: () => void;
+  onPressIn?: () => void;
+  onPressOut?: () => void;
 };
 
 /**
@@ -62,6 +66,9 @@ const Button = (props: ButtonProps) => {
     testID,
     icon,
     iconPosition,
+    onPress,
+    onPressIn,
+    onPressOut,
   } = props;
 
   const buttonSize = useMemo(() => {
@@ -174,15 +181,16 @@ const Button = (props: ButtonProps) => {
 
   return (
     <Pressable
-      onPressIn={() => setIsPressIn(true)}
-      onPressOut={() => setIsPressIn(false)}
-      style={{
-        ...styles.button,
-        ...button,
-        ...buttonSize,
-        ...Shadow[3],
-        ...style,
+      onPress={onPress}
+      onPressIn={() => {
+        setIsPressIn(true);
+        onPressIn && onPressIn();
       }}
+      onPressOut={() => {
+        setIsPressIn(false);
+        onPressOut && onPressOut();
+      }}
+      style={[styles.button, button, buttonSize, Shadow[3], style]}
       accessibilityLabel={accessibilityLabel}
       accessibilityHint={accessibilityHint}
       testID={testID}
@@ -201,12 +209,7 @@ const Button = (props: ButtonProps) => {
         />
       )}
       <Text
-        style={{
-          ...styles.buttonText,
-          ...buttonTextSize,
-          ...buttonTextColor,
-          ...labelStyle,
-        }}
+        style={[styles.buttonText, buttonTextSize, buttonTextColor, labelStyle]}
       >
         {children}
       </Text>

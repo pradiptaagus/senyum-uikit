@@ -6,6 +6,7 @@ import {
   View,
   Text,
   ViewStyle,
+  StyleProp,
 } from 'react-native';
 import { Color } from '../../base/Color';
 import { Spacing } from '../../base/Spacing';
@@ -21,9 +22,9 @@ type CheckboxProps = {
   borderColor?: string;
   backgroundColor?: string;
   checkColor?: string;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
   label?: string;
-  labelStyle?: TextStyle;
+  labelStyle?: StyleProp<TextStyle>;
   position?: 'leading' | 'trailing';
   bordered?: boolean;
 };
@@ -123,20 +124,9 @@ const Checkbox = (props: CheckboxProps) => {
   }, [disabled, bordered, checkColor]);
 
   return (
-    <View
-      style={{
-        ...styles.container,
-        ...style,
-      }}
-    >
+    <View style={[styles.container, style]}>
       {position === 'trailing' && label && (
-        <Text
-          style={{
-            ...styles.label,
-            ...styles.trailingLabel,
-            ...labelStyle,
-          }}
-        >
+        <Text style={[styles.label, styles.trailingLabel, labelStyle]}>
           {label}
         </Text>
       )}
@@ -148,13 +138,7 @@ const Checkbox = (props: CheckboxProps) => {
         {status === 'checked' && <View style={checkStyle} />}
       </Pressable>
       {(!position || position === 'leading') && label && (
-        <Text
-          style={{
-            ...styles.label,
-            ...styles.leadingLabel,
-            ...labelStyle,
-          }}
-        >
+        <Text style={[styles.label, styles.leadingLabel, labelStyle]}>
           {label}
         </Text>
       )}
