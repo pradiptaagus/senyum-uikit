@@ -4,5 +4,6 @@ import { Icon } from './base/icon';
 import { Shadow } from './base/shadow';
 import { Spacing } from './base/spacing';
 import Button from './components/Button';
+import TextInput from './components/TextInput';
 
-export { Color, FontSize, Icon, Shadow, Spacing, Button };
+export { Color, FontSize, Icon, Shadow, Spacing, Button, TextInput };
