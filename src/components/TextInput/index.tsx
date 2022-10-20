@@ -1,37 +1,43 @@
 import React, { useState, useMemo } from 'react';
-import { Text, TextInput as RNTextInput, TextStyle, View, ViewStyle } from "react-native";
-import type { InputProps, TextInputIconProps } from "./type";
-import {defaultLargeStyles, defaultSmallStyles, textInputIconStyles} from './style';
-import {Icon} from '../../base/icon';
-import {Color} from '../../base/color';
-import {Spacing} from '../../base/spacing';
-import {Shadow} from '../../base/shadow';
+import {
+  Text,
+  TextInput as RNTextInput,
+  TextStyle,
+  View,
+  ViewStyle,
+} from 'react-native';
+import type { InputProps, TextInputIconProps } from './type';
+import {
+  defaultLargeStyles,
+  defaultSmallStyles,
+  textInputIconStyles,
+} from './style';
+import { Icon } from '../../base/Icon';
+import { Color } from '../../base/Color';
+import { Spacing } from '../../base/Spacing';
+import { Shadow } from '../../base/Shadow';
 
 const TextInput = (props: InputProps) => {
-  const {type = 'medium', ...otherProps} = props;
+  const { type = 'medium', ...otherProps } = props;
 
-  return(
+  return (
     <View style={Shadow[3]}>
-      {type === 'medium' && (
-        <MediumTextInput {...otherProps} />
-      )}
-      {type !== 'medium' && (
-        <SmallTextInput {...otherProps} />
-      )}
+      {type === 'medium' && <MediumTextInput {...otherProps} />}
+      {type !== 'medium' && <SmallTextInput {...otherProps} />}
     </View>
   );
-}
+};
 
 const TextInputIcon = (props: TextInputIconProps) => {
   const CurrentIcon = Icon[props.icon];
-  return(
+  return (
     <CurrentIcon
       size={Spacing[20].toString()}
       color={Color.grey[3]}
       style={textInputIconStyles.icon}
     />
   );
-}
+};
 
 const SmallTextInput = (props: InputProps) => {
   const {
@@ -56,15 +62,13 @@ const SmallTextInput = (props: InputProps) => {
   const [value, setValue] = useState<string | undefined>(defaultValue);
 
   const mergedInputContainerStyle = useMemo(() => {
-    let style: ViewStyle[] = [
-      defaultSmallStyles.inputContainerStyle
-    ];
-    if(disabled) {
+    let style: ViewStyle[] = [defaultSmallStyles.inputContainerStyle];
+    if (disabled) {
       style.push(defaultSmallStyles.disabledInputContainerStyle);
-    } else if(focused) {
+    } else if (focused) {
       style.push(defaultSmallStyles.focusedInputContainerStyle);
     } else {
-      switch(borderType) {
+      switch (borderType) {
         case 'success':
           style.push(defaultSmallStyles.successInputContainerStyle);
           break;
@@ -80,22 +84,11 @@ const SmallTextInput = (props: InputProps) => {
   }, [focused, value, borderType]);
 
   return (
-    <View
-      style={[
-        defaultSmallStyles.containerStyle,
-        containerStyle
-      ]}
-    >
-      <View
-        style={[
-          mergedInputContainerStyle,
-          inputContainerStyle
-        ]}
-      >
-        <View style={[
-          defaultSmallStyles.innerContainerStyle,
-          inputContainerStyle
-        ]}>
+    <View style={[defaultSmallStyles.containerStyle, containerStyle]}>
+      <View style={[mergedInputContainerStyle, inputContainerStyle]}>
+        <View
+          style={[defaultSmallStyles.innerContainerStyle, inputContainerStyle]}
+        >
           <RNTextInput
             {...otherTextInputProps}
             value={value}
@@ -105,21 +98,17 @@ const SmallTextInput = (props: InputProps) => {
             placeholder={label}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
-            onChangeText={text => {
+            onChangeText={(text) => {
               setValue(text);
               onChangeText && onChangeText(text);
             }}
           />
         </View>
-        {icon && (
-          <TextInputIcon
-            icon={icon}
-          />
-        )}
+        {icon && <TextInputIcon icon={icon} />}
       </View>
     </View>
   );
-}
+};
 
 const MediumTextInput = (props: InputProps) => {
   const {
@@ -144,15 +133,13 @@ const MediumTextInput = (props: InputProps) => {
   const [value, setValue] = useState<string | undefined>(defaultValue);
 
   const mergedInputContainerStyle = useMemo(() => {
-    let style: ViewStyle[] = [
-      defaultLargeStyles.inputContainerStyle
-    ];
-    if(disabled) {
+    let style: ViewStyle[] = [defaultLargeStyles.inputContainerStyle];
+    if (disabled) {
       style.push(defaultLargeStyles.disabledInputContainerStyle);
-    } else if(focused) {
+    } else if (focused) {
       style.push(defaultLargeStyles.focusedInputContainerStyle);
     } else {
-      switch(borderType) {
+      switch (borderType) {
         case 'success':
           style.push(defaultLargeStyles.successInputContainerStyle);
           break;
@@ -164,53 +151,31 @@ const MediumTextInput = (props: InputProps) => {
           break;
       }
     }
-    if(value) {
+    if (value) {
       style.push(defaultLargeStyles.filledInputContainerStyle);
     }
     return style;
   }, [focused, value, borderType]);
   const mergedLabelStyle = useMemo(() => {
-    let style: TextStyle[] = [
-      defaultLargeStyles.labelStyle
-    ];
-    if(focused || value) {
+    let style: TextStyle[] = [defaultLargeStyles.labelStyle];
+    if (focused || value) {
       style.push(defaultLargeStyles.focusedLabelStyle);
     }
     return style;
   }, [focused, value]);
   const mergedInnerContainerStyle = useMemo(() => {
-    let style: ViewStyle[] = [
-      defaultLargeStyles.innerContainerStyle
-    ];
-    if(!label) {
+    let style: ViewStyle[] = [defaultLargeStyles.innerContainerStyle];
+    if (!label) {
       style.push(defaultLargeStyles.innerContainerStyleWithoutLabel);
     }
     return style;
   }, [label]);
 
   return (
-    <View
-      style={[
-        defaultLargeStyles.containerStyle,
-        containerStyle
-      ]}
-    >
-      <View
-        style={[
-          mergedInputContainerStyle,
-          inputContainerStyle
-        ]}
-      >
+    <View style={[defaultLargeStyles.containerStyle, containerStyle]}>
+      <View style={[mergedInputContainerStyle, inputContainerStyle]}>
         <View style={mergedInnerContainerStyle}>
-          {label && (
-            <Text
-              style={[
-                mergedLabelStyle
-              ]}
-            >
-              {label}
-            </Text>
-          )}
+          {label && <Text style={[mergedLabelStyle]}>{label}</Text>}
           <RNTextInput
             {...otherTextInputProps}
             numberOfLines={1}
@@ -219,20 +184,16 @@ const MediumTextInput = (props: InputProps) => {
             editable={!disabled}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
-            onChangeText={text => {
+            onChangeText={(text) => {
               setValue(text);
               onChangeText && onChangeText(text);
             }}
           />
         </View>
-        {icon && (
-          <TextInputIcon
-            icon={icon}
-          />
-        )}
+        {icon && <TextInputIcon icon={icon} />}
       </View>
     </View>
   );
-}
+};
 
 export default TextInput;

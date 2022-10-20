@@ -1,9 +1,9 @@
-import { Color } from './base/color';
-import { FontSize } from './base/font';
-import { Icon } from './base/icon';
-import { Shadow } from './base/shadow';
-import { Spacing } from './base/spacing';
-import Button from './components/Button';
-import TextInput from './components/TextInput';
-
-export { Color, FontSize, Icon, Shadow, Spacing, Button, TextInput };
+export * from './base/Color';
+export * from './base/Font';
+export * from './base/Icon';
+export * from './base/Shadow';
+export * from './base/Spacing';
+export { default as Button } from './components/Button';
+export { default as Checkbox } from './components/Checkbox';
+export { default as Radio } from './components/Radio';
+export { default as Dialog } from './components/Dialog';

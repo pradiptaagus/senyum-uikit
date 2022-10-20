@@ -15,7 +15,7 @@ type ItemProps = {
   onPress: () => void;
 };
 
-const data = ['Button', 'Input', 'Checkbox', 'Icon'];
+const data = ['Button', 'Input', 'Checkbox', 'Icon', 'Radio', 'Dialog'];
 
 const Item = ({ title, onPress }: ItemProps) => (
   <Pressable style={styles.item} onPress={onPress}>
@@ -23,7 +23,7 @@ const Item = ({ title, onPress }: ItemProps) => (
   </Pressable>
 );
 
-const Separator = () => <View style={styles.separator}></View>;
+const Separator = () => <View style={styles.separator} />;
 
 const Home = () => {
   const navigation = useNavigation<RootStackScreenProps<'Home'>>();

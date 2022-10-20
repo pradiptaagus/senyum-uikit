@@ -1,19 +1,26 @@
 import React, { useMemo, useState } from 'react';
 import {
   Pressable,
+  StyleProp,
   StyleSheet,
   Text,
   TextStyle,
   ViewStyle,
 } from 'react-native';
-import { FontSize } from '../../base/font';
-import { Color } from '../../base/color';
-import { Shadow } from '../../base/shadow';
-import { Icon } from '../../base/icon';
-import { Spacing } from '../../base/spacing';
+import { FontSize } from '../../base/Font';
+import { Color } from '../../base/Color';
+import { Shadow } from '../../base/Shadow';
+import { Icon } from '../../base/Icon';
+import { Spacing } from '../../base/Spacing';
+
+type ButtonSize = 'small' | 'medium' | 'large';
+
+type ButtonVariant = 'primary' | 'secondary';
+
+type ButtonIconPosition = 'left' | 'right';
 
 type ButtonProps = {
-  size?: 'small' | 'medium' | 'large';
+  size?: ButtonSize;
   children: React.ReactNode;
   disabled?: boolean;
   bordered?: boolean;
@@ -21,14 +28,17 @@ type ButtonProps = {
   activeButtonColor?: string;
   textColor?: string;
   activeTextColor?: string;
-  variant?: 'primary' | 'secondary';
-  style?: ViewStyle;
-  labelStyle?: TextStyle;
+  variant?: ButtonVariant;
+  style?: StyleProp<ViewStyle>;
+  labelStyle?: StyleProp<TextStyle>;
   accessibilityLabel?: string;
   accessibilityHint?: string;
   testID?: string;
   icon?: keyof typeof Icon;
-  iconPosition?: 'left' | 'right';
+  iconPosition?: ButtonIconPosition;
+  onPress?: () => void;
+  onPressIn?: () => void;
+  onPressOut?: () => void;
 };
 
 /**
@@ -56,76 +66,10 @@ const Button = (props: ButtonProps) => {
     testID,
     icon,
     iconPosition,
+    onPress,
+    onPressIn,
+    onPressOut,
   } = props;
-
-  const BtnIcon = () => {
-    if (icon) {
-      const CurrentIcon = Icon[icon];
-      let iconSize = '0';
-      let iconColor = Color.light[1];
-
-      if (size === 'small') {
-        iconSize = '16';
-      } else if (size === 'large') {
-        iconSize = '20';
-      } else {
-        iconSize = '18';
-      }
-
-      if (!isPressIn && textColor) {
-        iconColor = textColor;
-      } else if (isPressIn && activeTextColor) {
-        iconColor = activeTextColor;
-      } else if (variant) {
-        if (variant === 'primary') {
-          if (bordered) {
-            if (disabled) {
-              iconColor = Color.grey[6];
-            } else if (isPressIn) {
-              iconColor = Color.hightlight[1];
-            } else {
-              iconColor = Color.hightlight[2];
-            }
-          } else {
-            if (disabled) {
-              iconColor = Color.light[5];
-            } else {
-              iconColor = Color.light[1];
-            }
-          }
-        }
-      } else {
-        if (bordered) {
-          if (disabled) {
-            iconColor = Color.grey[6];
-          } else if (isPressIn) {
-            iconColor = Color.grey[6];
-          } else {
-            iconColor = Color.grey[5];
-          }
-        } else {
-          if (disabled) {
-            iconColor = Color.grey[7];
-          } else {
-            iconColor = Color.grey[1];
-          }
-        }
-      }
-
-      return (
-        <CurrentIcon
-          size={iconSize}
-          color={iconColor}
-          style={{
-            ...(iconPosition === 'right' && styles.buttonRightIconStyle),
-            ...((!iconPosition || iconPosition === 'left') &&
-              styles.buttonLeftIconStyle),
-          }}
-        />
-      );
-    }
-    return null;
-  };
 
   const buttonSize = useMemo(() => {
     if (size === 'small') {
@@ -134,7 +78,7 @@ const Button = (props: ButtonProps) => {
       return styles.largeButton;
     }
     return styles.mediumButton;
-  }, []);
+  }, [size]);
 
   const buttonTextSize = useMemo(() => {
     if (size === 'small') {
@@ -143,7 +87,7 @@ const Button = (props: ButtonProps) => {
       return styles.largeButtonText;
     }
     return styles.mediumButtonText;
-  }, []);
+  }, [size]);
 
   const button: ViewStyle = useMemo(() => {
     if (!isPressIn && buttonColor) {
@@ -190,7 +134,7 @@ const Button = (props: ButtonProps) => {
       }
     }
     return {};
-  }, [isPressIn]);
+  }, [activeButtonColor, bordered, buttonColor, disabled, variant, isPressIn]);
 
   const buttonTextColor: TextStyle = useMemo(() => {
     if (!isPressIn && textColor) {
@@ -233,37 +177,147 @@ const Button = (props: ButtonProps) => {
       }
     }
     return {};
-  }, [isPressIn]);
+  }, [activeTextColor, bordered, disabled, textColor, variant, isPressIn]);
 
   return (
     <Pressable
-      onPressIn={() => setIsPressIn(true)}
-      onPressOut={() => setIsPressIn(false)}
-      style={{
-        ...styles.button,
-        ...button,
-        ...buttonSize,
-        ...Shadow[3],
-        ...style,
+      onPress={onPress}
+      onPressIn={() => {
+        setIsPressIn(true);
+        onPressIn && onPressIn();
       }}
+      onPressOut={() => {
+        setIsPressIn(false);
+        onPressOut && onPressOut();
+      }}
+      style={[styles.button, button, buttonSize, Shadow[3], style]}
       accessibilityLabel={accessibilityLabel}
       accessibilityHint={accessibilityHint}
       testID={testID}
     >
-      {(!iconPosition || iconPosition === 'left') && <BtnIcon />}
+      {(!iconPosition || iconPosition === 'left') && (
+        <ButtonIcon
+          icon={icon}
+          size={size}
+          isPressIn={isPressIn}
+          textColor={textColor}
+          activeTextColor={activeTextColor}
+          variant={variant}
+          bordered={bordered}
+          disabled={disabled}
+          iconPosition={iconPosition}
+        />
+      )}
       <Text
-        style={{
-          ...styles.buttonText,
-          ...buttonTextSize,
-          ...buttonTextColor,
-          ...labelStyle,
-        }}
+        style={[styles.buttonText, buttonTextSize, buttonTextColor, labelStyle]}
       >
         {children}
       </Text>
-      {iconPosition === 'right' && <BtnIcon />}
+      {iconPosition === 'right' && (
+        <ButtonIcon
+          icon={icon}
+          size={size}
+          isPressIn={isPressIn}
+          textColor={textColor}
+          activeTextColor={activeTextColor}
+          variant={variant}
+          bordered={bordered}
+          disabled={disabled}
+          iconPosition={iconPosition}
+        />
+      )}
     </Pressable>
   );
+};
+
+type ButtonIconProps = {
+  icon?: keyof typeof Icon;
+  size?: ButtonSize;
+  isPressIn: boolean;
+  textColor?: string;
+  activeTextColor?: string;
+  variant?: ButtonVariant;
+  bordered?: boolean;
+  disabled?: boolean;
+  iconPosition?: ButtonIconPosition;
+};
+const ButtonIcon = ({
+  icon,
+  size,
+  isPressIn,
+  textColor,
+  activeTextColor,
+  variant,
+  bordered,
+  disabled,
+  iconPosition,
+}: ButtonIconProps) => {
+  if (icon) {
+    const CurrentIcon = Icon[icon];
+    let iconSize = '0';
+    let iconColor = Color.light[1];
+
+    if (size === 'small') {
+      iconSize = '16';
+    } else if (size === 'large') {
+      iconSize = '20';
+    } else {
+      iconSize = '18';
+    }
+
+    if (!isPressIn && textColor) {
+      iconColor = textColor;
+    } else if (isPressIn && activeTextColor) {
+      iconColor = activeTextColor;
+    } else if (variant) {
+      if (variant === 'primary') {
+        if (bordered) {
+          if (disabled) {
+            iconColor = Color.grey[6];
+          } else if (isPressIn) {
+            iconColor = Color.hightlight[1];
+          } else {
+            iconColor = Color.hightlight[2];
+          }
+        } else {
+          if (disabled) {
+            iconColor = Color.light[5];
+          } else {
+            iconColor = Color.light[1];
+          }
+        }
+      }
+    } else {
+      if (bordered) {
+        if (disabled) {
+          iconColor = Color.grey[6];
+        } else if (isPressIn) {
+          iconColor = Color.grey[6];
+        } else {
+          iconColor = Color.grey[5];
+        }
+      } else {
+        if (disabled) {
+          iconColor = Color.grey[7];
+        } else {
+          iconColor = Color.grey[1];
+        }
+      }
+    }
+
+    return (
+      <CurrentIcon
+        size={iconSize}
+        color={iconColor}
+        style={{
+          ...(iconPosition === 'right' && styles.buttonRightIconStyle),
+          ...((!iconPosition || iconPosition === 'left') &&
+            styles.buttonLeftIconStyle),
+        }}
+      />
+    );
+  }
+  return null;
 };
 
 const styles = StyleSheet.create({

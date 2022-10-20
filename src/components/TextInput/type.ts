@@ -1,10 +1,15 @@
-import type { TextProps, TextStyle, ViewStyle, TextInputProps } from "react-native";
-import type { Icon } from '../../base/icon';
+import type {
+  TextProps,
+  TextStyle,
+  ViewStyle,
+  TextInputProps,
+} from 'react-native';
+import type { Icon } from '../../base/Icon';
 
 export type BorderType = 'success' | 'warning' | 'error';
 
 export type InputProps = Omit<TextInputProps, 'style'> & {
-  type?: 'small' | 'medium',
+  type?: 'small' | 'medium';
   containerStyle?: ViewStyle;
   disabled?: boolean;
   disabledInputStyle?: TextStyle;
@@ -17,8 +22,8 @@ export type InputProps = Omit<TextInputProps, 'style'> & {
   testID?: string;
   icon?: keyof typeof Icon;
   onChangeText?: (text: string) => void;
-}
+};
 
 export type TextInputIconProps = {
   icon: keyof typeof Icon;
-}
+};
