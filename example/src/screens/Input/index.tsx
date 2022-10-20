@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
-import { Color, Spacing, TextInput } from 'senyum-uikit';
+import { Color, Spacing, TextInput, Dropdown } from 'senyum-uikit';
 
 export default function InputExample() {
   return (
@@ -50,6 +50,14 @@ export default function InputExample() {
           />
           <TextInput disabled label="Label" type="small" icon="Edit1" />
           <TextInput disabled value="Placeholder" type="small" icon="Edit1" />
+
+          <Dropdown label="Label" />
+          <Dropdown label="Label" value="Placeholder" />
+          <Dropdown label="Label" value="Placeholder" borderType="error" />
+          <Dropdown label="Label" value="Placeholder" borderType="success" />
+          <Dropdown label="Label" value="Placeholder" borderType="warning" />
+          <Dropdown disabled label="Label" />
+          <Dropdown disabled label="Label" value="Placeholder" />
         </View>
       </ScrollView>
     </SafeAreaView>

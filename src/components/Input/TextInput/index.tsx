@@ -1,21 +1,23 @@
 import React, { useState, useMemo } from 'react';
 import {
+  StyleProp,
   Text,
   TextInput as RNTextInput,
   TextStyle,
   View,
   ViewStyle,
 } from 'react-native';
-import type { InputProps, TextInputIconProps } from './type';
+import type { InputProps } from './type';
+import type { TextInputIconProps } from './type';
 import {
   defaultLargeStyles,
   defaultSmallStyles,
   textInputIconStyles,
 } from './style';
-import { Icon } from '../../base/Icon';
-import { Color } from '../../base/Color';
-import { Spacing } from '../../base/Spacing';
-import { Shadow } from '../../base/Shadow';
+import { Icon } from '../../../base/Icon';
+import { Color } from '../../../base/Color';
+import { Spacing } from '../../../base/Spacing';
+import { Shadow } from '../../../base/Shadow';
 
 const TextInput = (props: InputProps) => {
   const { type = 'medium', ...otherProps } = props;
@@ -45,6 +47,9 @@ const SmallTextInput = (props: InputProps) => {
     disabled,
     borderType,
     inputContainerStyle,
+    disabledInputContainerStyle,
+    focusedInputContainerStyle,
+    inputStyle,
     label,
     onChangeText,
     value: defaultValue,
@@ -56,11 +61,19 @@ const SmallTextInput = (props: InputProps) => {
   const [value, setValue] = useState<string | undefined>(defaultValue);
 
   const mergedInputContainerStyle = useMemo(() => {
-    let style: ViewStyle[] = [defaultSmallStyles.inputContainerStyle];
+    let style: StyleProp<ViewStyle>[] = [
+      defaultSmallStyles.inputContainerStyle,
+    ];
     if (disabled) {
       style.push(defaultSmallStyles.disabledInputContainerStyle);
+      if (disabledInputContainerStyle) {
+        style.push(disabledInputContainerStyle);
+      }
     } else if (focused) {
       style.push(defaultSmallStyles.focusedInputContainerStyle);
+      if (focusedInputContainerStyle) {
+        style.push(focusedInputContainerStyle);
+      }
     } else {
       switch (borderType) {
         case 'success':
@@ -75,7 +88,13 @@ const SmallTextInput = (props: InputProps) => {
       }
     }
     return style;
-  }, [disabled, focused, borderType]);
+  }, [
+    disabled,
+    focused,
+    disabledInputContainerStyle,
+    focusedInputContainerStyle,
+    borderType,
+  ]);
 
   return (
     <View style={[defaultSmallStyles.containerStyle, containerStyle]}>
@@ -87,7 +106,7 @@ const SmallTextInput = (props: InputProps) => {
             {...otherTextInputProps}
             value={value}
             numberOfLines={1}
-            style={defaultSmallStyles.inputStyle}
+            style={[defaultSmallStyles.inputStyle, inputStyle]}
             editable={!disabled}
             placeholder={label}
             onFocus={() => setFocused(true)}
@@ -110,6 +129,8 @@ const MediumTextInput = (props: InputProps) => {
     disabled,
     borderType,
     inputContainerStyle,
+    disabledInputContainerStyle,
+    focusedInputContainerStyle,
     label,
     onChangeText,
     value: defaultValue,
@@ -121,11 +142,19 @@ const MediumTextInput = (props: InputProps) => {
   const [value, setValue] = useState<string | undefined>(defaultValue);
 
   const mergedInputContainerStyle = useMemo(() => {
-    let style: ViewStyle[] = [defaultLargeStyles.inputContainerStyle];
+    let style: StyleProp<ViewStyle>[] = [
+      defaultLargeStyles.inputContainerStyle,
+    ];
     if (disabled) {
       style.push(defaultLargeStyles.disabledInputContainerStyle);
+      if (disabledInputContainerStyle) {
+        style.push(disabledInputContainerStyle);
+      }
     } else if (focused) {
       style.push(defaultLargeStyles.focusedInputContainerStyle);
+      if (focusedInputContainerStyle) {
+        style.push(focusedInputContainerStyle);
+      }
     } else {
       switch (borderType) {
         case 'success':
@@ -143,7 +172,14 @@ const MediumTextInput = (props: InputProps) => {
       style.push(defaultLargeStyles.filledInputContainerStyle);
     }
     return style;
-  }, [disabled, focused, value, borderType]);
+  }, [
+    disabled,
+    focused,
+    value,
+    disabledInputContainerStyle,
+    focusedInputContainerStyle,
+    borderType,
+  ]);
   const mergedLabelStyle = useMemo(() => {
     let style: TextStyle[] = [defaultLargeStyles.labelStyle];
     if (focused || value) {
