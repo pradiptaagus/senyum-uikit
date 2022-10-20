@@ -1,7 +1,7 @@
-import {StyleSheet} from 'react-native';
-import {Spacing} from '../../base/spacing';
-import {Color} from '../../base/color';
-import {FontSize} from '../../base/font';
+import { StyleSheet } from 'react-native';
+import { Spacing } from '../../base/Spacing';
+import { Color } from '../../base/Color';
+import { FontSize } from '../../base/Font';
 
 export const defaultLargeStyles = StyleSheet.create({
   containerStyle: {
@@ -10,7 +10,7 @@ export const defaultLargeStyles = StyleSheet.create({
   messageStyle: {
     marginTop: Spacing[12],
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   inputContainerStyle: {
     height: Spacing[64],
@@ -19,10 +19,10 @@ export const defaultLargeStyles = StyleSheet.create({
     borderColor: Color.grey[6],
     paddingHorizontal: Spacing[16],
     paddingVertical: Spacing[20],
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   disabledInputContainerStyle: {
-    backgroundColor: Color.light[7]
+    backgroundColor: Color.light[7],
   },
   focusedInputContainerStyle: {
     borderColor: Color.primary[3],
@@ -36,10 +36,10 @@ export const defaultLargeStyles = StyleSheet.create({
   },
   innerContainerStyle: {
     flex: 1,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   innerContainerStyleWithoutLabel: {
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   warningInputContainerStyle: {
     borderColor: Color.yellow[1],
@@ -50,25 +50,25 @@ export const defaultLargeStyles = StyleSheet.create({
   inputStyle: {
     fontSize: FontSize[16],
     color: Color.grey[1],
-    padding: 0
+    padding: 0,
   },
   disabledInputStyle: {
-    color: Color.grey[4]
+    color: Color.grey[4],
   },
   labelStyle: {
     fontSize: FontSize[16],
     color: Color.grey[5],
     position: 'absolute',
-    zIndex: -1
+    zIndex: -1,
   },
   focusedLabelStyle: {
     top: 0,
-    fontSize: FontSize[12]
+    fontSize: FontSize[12],
   },
   placeholderStyle: {
     fontSize: FontSize[16],
-    color: Color.grey[6]
-  }
+    color: Color.grey[6],
+  },
 });
 
 export const defaultSmallStyles = StyleSheet.create({
@@ -78,11 +78,11 @@ export const defaultSmallStyles = StyleSheet.create({
   messageStyle: {
     marginTop: Spacing[12],
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   messageTextStyle: {
     fontSize: FontSize[12],
-    marginLeft: Spacing[10]
+    marginLeft: Spacing[10],
   },
   successMessageTextStyle: {
     color: Color.green[1],
@@ -100,10 +100,10 @@ export const defaultSmallStyles = StyleSheet.create({
     borderColor: Color.grey[6],
     paddingHorizontal: Spacing[16],
     paddingVertical: Spacing[8],
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   disabledInputContainerStyle: {
-    backgroundColor: Color.light[7]
+    backgroundColor: Color.light[7],
   },
   focusedInputContainerStyle: {
     borderColor: Color.primary[3],
@@ -113,7 +113,7 @@ export const defaultSmallStyles = StyleSheet.create({
   },
   innerContainerStyle: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   warningInputContainerStyle: {
     borderColor: Color.yellow[1],
@@ -124,17 +124,17 @@ export const defaultSmallStyles = StyleSheet.create({
   inputStyle: {
     fontSize: FontSize[14],
     color: Color.grey[1],
-    padding: 0
+    padding: 0,
   },
   disabledInputStyle: {
-    color: Color.grey[4]
+    color: Color.grey[4],
   },
   placeholderStyle: {
     fontSize: FontSize[16],
-    color: Color.grey[6]
-  }
+    color: Color.grey[6],
+  },
 });
 
 export const textInputIconStyles = StyleSheet.create({
-  icon: {alignSelf: 'center'}
+  icon: { alignSelf: 'center' },
 });

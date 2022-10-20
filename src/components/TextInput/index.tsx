@@ -41,17 +41,11 @@ const TextInputIcon = (props: TextInputIconProps) => {
 
 const SmallTextInput = (props: InputProps) => {
   const {
-    type,
     containerStyle,
     disabled,
-    disabledInputStyle,
     borderType,
     inputContainerStyle,
-    inputStyle,
     label,
-    labelProps,
-    labelStyle,
-    testID,
     onChangeText,
     value: defaultValue,
     icon,
@@ -81,7 +75,7 @@ const SmallTextInput = (props: InputProps) => {
       }
     }
     return style;
-  }, [focused, value, borderType]);
+  }, [disabled, focused, borderType]);
 
   return (
     <View style={[defaultSmallStyles.containerStyle, containerStyle]}>
@@ -112,17 +106,11 @@ const SmallTextInput = (props: InputProps) => {
 
 const MediumTextInput = (props: InputProps) => {
   const {
-    type,
     containerStyle,
     disabled,
-    disabledInputStyle,
     borderType,
     inputContainerStyle,
-    inputStyle,
     label,
-    labelProps,
-    labelStyle,
-    testID,
     onChangeText,
     value: defaultValue,
     icon,
@@ -155,7 +143,7 @@ const MediumTextInput = (props: InputProps) => {
       style.push(defaultLargeStyles.filledInputContainerStyle);
     }
     return style;
-  }, [focused, value, borderType]);
+  }, [disabled, focused, value, borderType]);
   const mergedLabelStyle = useMemo(() => {
     let style: TextStyle[] = [defaultLargeStyles.labelStyle];
     if (focused || value) {
