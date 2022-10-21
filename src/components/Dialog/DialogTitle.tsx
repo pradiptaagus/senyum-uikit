@@ -1,19 +1,11 @@
 import React from 'react';
-import {
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextStyle,
-  View,
-  ViewStyle,
-} from 'react-native';
+import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native';
 import { FontSize } from '../../base/Font';
 import { Color } from '../../base/Color';
 
 type DialogTitleProps = {
   children: React.ReactNode;
-  style?: StyleProp<ViewStyle>;
-  titleStyle?: StyleProp<TextStyle>;
+  style?: StyleProp<TextStyle>;
 };
 
 /**
@@ -22,22 +14,12 @@ type DialogTitleProps = {
  * @returns JSX.Element
  */
 const DialogTitle = (props: DialogTitleProps) => {
-  const { children, style, titleStyle } = props;
+  const { children, style } = props;
 
-  return (
-    <View style={[styles.container, style]}>
-      <Text style={[styles.title, titleStyle]}>{children}</Text>
-    </View>
-  );
+  return <Text style={[styles.title, style]}>{children}</Text>;
 };
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    borderColor: Color.grey[7],
-    borderBottomWidth: 1,
-    borderStyle: 'solid',
-  },
   title: {
     textAlign: 'center',
     fontSize: FontSize[16],
