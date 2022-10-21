@@ -43,6 +43,7 @@ const TextInputIcon = (props: TextInputIconProps) => {
 
 const SmallTextInput = (props: InputProps) => {
   const {
+    testID,
     containerStyle,
     disabled,
     borderType,
@@ -95,15 +96,35 @@ const SmallTextInput = (props: InputProps) => {
     focusedInputContainerStyle,
     borderType,
   ]);
+  const composedTestIDs = useMemo(() => {
+    if (testID) {
+      return {
+        rootView: `${testID}-rootview`,
+        pressable: `${testID}-pressable`,
+        inputContainer: `${testID}-inputcontainer`,
+        innerContainer: `${testID}-innercontainer`,
+        textInput: `${testID}-textinput`,
+      };
+    }
+    return undefined;
+  }, [testID]);
 
   return (
-    <View style={[defaultSmallStyles.containerStyle, containerStyle]}>
-      <View style={[mergedInputContainerStyle, inputContainerStyle]}>
+    <View
+      testID={composedTestIDs?.rootView}
+      style={[defaultSmallStyles.containerStyle, containerStyle]}
+    >
+      <View
+        testID={composedTestIDs?.inputContainer}
+        style={[mergedInputContainerStyle, inputContainerStyle]}
+      >
         <View
+          testID={composedTestIDs?.innerContainer}
           style={[defaultSmallStyles.innerContainerStyle, inputContainerStyle]}
         >
           <RNTextInput
             {...otherTextInputProps}
+            testID={composedTestIDs?.textInput}
             value={value}
             numberOfLines={1}
             style={[defaultSmallStyles.inputStyle, inputStyle]}
@@ -125,6 +146,7 @@ const SmallTextInput = (props: InputProps) => {
 
 const MediumTextInput = (props: InputProps) => {
   const {
+    testID,
     containerStyle,
     disabled,
     borderType,
@@ -194,14 +216,42 @@ const MediumTextInput = (props: InputProps) => {
     }
     return style;
   }, [label]);
+  const composedTestIDs = useMemo(() => {
+    if (testID) {
+      return {
+        rootView: `${testID}-rootview`,
+        pressable: `${testID}-pressable`,
+        inputContainer: `${testID}-inputcontainer`,
+        innerContainer: `${testID}-innercontainer`,
+        textInput: `${testID}-textinput`,
+        label: `${testID}-label`,
+        value: `${testID}-value`,
+      };
+    }
+    return undefined;
+  }, [testID]);
 
   return (
-    <View style={[defaultLargeStyles.containerStyle, containerStyle]}>
-      <View style={[mergedInputContainerStyle, inputContainerStyle]}>
-        <View style={mergedInnerContainerStyle}>
-          {label && <Text style={[mergedLabelStyle]}>{label}</Text>}
+    <View
+      testID={composedTestIDs?.rootView}
+      style={[defaultLargeStyles.containerStyle, containerStyle]}
+    >
+      <View
+        testID={composedTestIDs?.inputContainer}
+        style={[mergedInputContainerStyle, inputContainerStyle]}
+      >
+        <View
+          testID={composedTestIDs?.innerContainer}
+          style={mergedInnerContainerStyle}
+        >
+          {label && (
+            <Text testID={composedTestIDs?.label} style={[mergedLabelStyle]}>
+              {label}
+            </Text>
+          )}
           <RNTextInput
             {...otherTextInputProps}
+            testID={composedTestIDs?.textInput}
             numberOfLines={1}
             value={value}
             style={defaultLargeStyles.inputStyle}

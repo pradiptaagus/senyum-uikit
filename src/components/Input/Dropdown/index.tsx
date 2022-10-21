@@ -41,7 +41,7 @@ const Dropdown = (props: DropdownProps) => {
   } = props;
 
   const mergedContainerStyle = useMemo(() => {
-    let style: ViewStyle[] = [
+    let style: StyleProp<ViewStyle>[] = [
       defaultStyles.containerStyle,
       { borderRadius: defaultStyles.inputContainerStyle.borderRadius },
     ];
@@ -89,7 +89,12 @@ const Dropdown = (props: DropdownProps) => {
   const composedTestIDs = useMemo(() => {
     if (testID) {
       return {
-        rootView: `${testID}-rootView`,
+        rootView: `${testID}-rootview`,
+        pressable: `${testID}-pressable`,
+        inputContainer: `${testID}-inputcontainer`,
+        innerContainer: `${testID}-innercontainer`,
+        label: `${testID}-label`,
+        value: `${testID}-value`,
       };
     }
     return undefined;
@@ -101,18 +106,30 @@ const Dropdown = (props: DropdownProps) => {
       style={[mergedContainerStyle, containerStyle]}
     >
       <TouchableNativeFeedback
+        testID={composedTestIDs?.pressable}
         disabled={disabled}
         background={TouchableNativeFeedback.Ripple('#ddd', false)}
         onPress={onPress}
       >
-        <View style={[mergedInputContainerStyle, inputContainerStyle]}>
-          <View style={mergedInnerContainerStyle}>
+        <View
+          testID={composedTestIDs?.inputContainer}
+          style={[mergedInputContainerStyle, inputContainerStyle]}
+        >
+          <View
+            testID={composedTestIDs?.innerContainer}
+            style={mergedInnerContainerStyle}
+          >
             {label && (
-              <Text style={[mergedLabelStyle, labelStyle]} {...labelProps}>
+              <Text
+                testID={composedTestIDs?.label}
+                style={[mergedLabelStyle, labelStyle]}
+                {...labelProps}
+              >
                 {label}
               </Text>
             )}
             <Text
+              testID={composedTestIDs?.value}
               numberOfLines={1}
               style={[defaultStyles.inputStyle, inputStyle]}
             >
