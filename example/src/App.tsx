@@ -10,6 +10,7 @@ import Icon from './screens/Icon';
 import Checkbox from './screens/Checkbox';
 import Radio from './screens/Radio';
 import Dialog from './screens/Dialog';
+import PINInput from './screens/PINInput';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -18,6 +19,7 @@ export type RootStackParamList = {
   Icon: undefined;
   Radio: undefined;
   Dialog: undefined;
+  PINInput: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
@@ -35,6 +37,7 @@ export default function App() {
         <Stack.Screen name="Icon" component={Icon} />
         <Stack.Screen name="Radio" component={Radio} />
         <Stack.Screen name="Dialog" component={Dialog} />
+        <Stack.Screen name="PINInput" component={PINInput} />
       </Stack.Navigator>
     </NavigationContainer>
   );
