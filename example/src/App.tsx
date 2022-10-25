@@ -25,6 +25,7 @@ export type RootStackParamList = {
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
   StackScreenProps<RootStackParamList, T>;
 
+export type HomeScreenProps = RootStackScreenProps<'Home'>;
 export type AppbarScreenProps = RootStackScreenProps<'Appbar'>;
 
 const Stack = createStackNavigator<RootStackParamList>();
