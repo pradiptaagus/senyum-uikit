@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import {
+  Pressable,
   StyleProp,
   Text,
   TextInput as RNTextInput,
@@ -58,6 +59,8 @@ const SmallTextInput = (props: InputProps) => {
     ...otherTextInputProps
   } = props;
 
+  const textInputRef = useRef<RNTextInput>(null);
+
   const [focused, setFocused] = useState<boolean>(false);
   const [value, setValue] = useState<string | undefined>(defaultValue);
 
@@ -110,9 +113,10 @@ const SmallTextInput = (props: InputProps) => {
   }, [testID]);
 
   return (
-    <View
+    <Pressable
       testID={composedTestIDs?.rootView}
       style={[defaultSmallStyles.containerStyle, containerStyle]}
+      onPress={() => textInputRef.current?.focus()}
     >
       <View
         testID={composedTestIDs?.inputContainer}
@@ -123,6 +127,7 @@ const SmallTextInput = (props: InputProps) => {
           style={[defaultSmallStyles.innerContainerStyle, inputContainerStyle]}
         >
           <RNTextInput
+            ref={textInputRef}
             {...otherTextInputProps}
             testID={composedTestIDs?.textInput}
             value={value}
@@ -140,7 +145,7 @@ const SmallTextInput = (props: InputProps) => {
         </View>
         {icon && <TextInputIcon icon={icon} />}
       </View>
-    </View>
+    </Pressable>
   );
 };
 
@@ -159,6 +164,8 @@ const MediumTextInput = (props: InputProps) => {
     icon,
     ...otherTextInputProps
   } = props;
+
+  const textInputRef = useRef<RNTextInput>(null);
 
   const [focused, setFocused] = useState<boolean>(false);
   const [value, setValue] = useState<string | undefined>(defaultValue);
@@ -232,9 +239,10 @@ const MediumTextInput = (props: InputProps) => {
   }, [testID]);
 
   return (
-    <View
+    <Pressable
       testID={composedTestIDs?.rootView}
       style={[defaultLargeStyles.containerStyle, containerStyle]}
+      onPress={() => textInputRef.current?.focus()}
     >
       <View
         testID={composedTestIDs?.inputContainer}
@@ -250,6 +258,7 @@ const MediumTextInput = (props: InputProps) => {
             </Text>
           )}
           <RNTextInput
+            ref={textInputRef}
             {...otherTextInputProps}
             testID={composedTestIDs?.textInput}
             numberOfLines={1}
@@ -266,7 +275,7 @@ const MediumTextInput = (props: InputProps) => {
         </View>
         {icon && <TextInputIcon icon={icon} />}
       </View>
-    </View>
+    </Pressable>
   );
 };
 
