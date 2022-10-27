@@ -1,4 +1,4 @@
-import type { RootStackParamList, RootStackScreenProps } from 'example/src/App';
+import type { HomeScreenProps, RootStackParamList } from 'example/src/App';
 import React from 'react';
 import {
   FlatList,
@@ -8,14 +8,21 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 type ItemProps = {
   title: string;
   onPress: () => void;
 };
 
-const data = ['Button', 'Input', 'Checkbox', 'Icon', 'Radio', 'Dialog'];
+const data = [
+  'Button',
+  'Input',
+  'Checkbox',
+  'Icon',
+  'Radio',
+  'Dialog',
+  'Appbar',
+];
 
 const Item = ({ title, onPress }: ItemProps) => (
   <Pressable style={styles.item} onPress={onPress}>
@@ -25,12 +32,12 @@ const Item = ({ title, onPress }: ItemProps) => (
 
 const Separator = () => <View style={styles.separator} />;
 
-const Home = () => {
-  const navigation = useNavigation<RootStackScreenProps<'Home'>>();
-
+const Home = (props: HomeScreenProps) => {
   const renderItem = ({ item }: { item: string }) => (
     <Item
-      onPress={() => navigation.navigate(item as keyof RootStackParamList)}
+      onPress={() =>
+        props.navigation.navigate(item as keyof RootStackParamList)
+      }
       title={item}
     />
   );
