@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
-import { Spacing } from '../../../base/Spacing';
-import { Color } from '../../../base/Color';
-import { FontSize } from '../../../base/Font';
+import { Spacing } from '../../base/Spacing';
+import { Color } from '../../base/Color';
+import { FontSize } from '../../base/Font';
 
 export const defaultStyles = StyleSheet.create({
   containerStyle: {

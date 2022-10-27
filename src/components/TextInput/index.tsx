@@ -14,10 +14,10 @@ import {
   defaultSmallStyles,
   textInputIconStyles,
 } from './style';
-import { Icon } from '../../../base/Icon';
-import { Color } from '../../../base/Color';
-import { Spacing } from '../../../base/Spacing';
-import { Shadow } from '../../../base/Shadow';
+import { Icon } from '../../base/Icon';
+import { Color } from '../../base/Color';
+import { Spacing } from '../../base/Spacing';
+import { Shadow } from '../../base/Shadow';
 
 const TextInput = (props: InputProps) => {
   const { type = 'medium', ...otherProps } = props;

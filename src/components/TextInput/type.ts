@@ -5,8 +5,9 @@ import type {
   TextInputProps,
   StyleProp,
 } from 'react-native';
-import type { Icon } from '../../../base/Icon';
-import type { HighlightType } from '../type';
+import type { Icon } from '../../base/Icon';
+
+type HighlightType = 'success' | 'warning' | 'error';
 
 export type TextInputIconProps = {
   icon: keyof typeof Icon;

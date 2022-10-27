@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import type { DropdownProps } from './type';
 import { defaultStyles, dropdownIconStyles } from './style';
-import { Icon } from '../../../base/Icon';
-import { Color } from '../../../base/Color';
-import { Spacing } from '../../../base/Spacing';
+import { Icon } from '../../base/Icon';
+import { Color } from '../../base/Color';
+import { Spacing } from '../../base/Spacing';
 
 const DropdownIcon = () => {
   const CurrentIcon = Icon.ChevronDown;
