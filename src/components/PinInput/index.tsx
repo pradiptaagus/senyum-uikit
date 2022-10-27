@@ -65,6 +65,7 @@ const PinInput = (props: PinInputProps) => {
         {valuesInArray.map((value, index) => {
           return (
             <PinInputField
+              key={`pinfield-${index}`}
               {...otherProps}
               index={index}
               activeIndex={activeIndex}
