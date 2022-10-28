@@ -22,6 +22,7 @@ const data = [
   'Icon',
   'Radio',
   'Dialog',
+  'PINInput',
   'Appbar',
 ];
 
