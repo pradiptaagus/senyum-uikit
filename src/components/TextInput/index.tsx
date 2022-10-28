@@ -99,6 +99,7 @@ const SmallTextInput = (props: InputProps) => {
     focusedInputContainerStyle,
     borderType,
   ]);
+
   const composedTestIDs = useMemo(() => {
     if (testID) {
       return {
@@ -209,6 +210,7 @@ const MediumTextInput = (props: InputProps) => {
     focusedInputContainerStyle,
     borderType,
   ]);
+
   const mergedLabelStyle = useMemo(() => {
     let style: TextStyle[] = [defaultLargeStyles.labelStyle];
     if (focused || value) {
@@ -216,6 +218,7 @@ const MediumTextInput = (props: InputProps) => {
     }
     return style;
   }, [focused, value]);
+
   const mergedInnerContainerStyle = useMemo(() => {
     let style: ViewStyle[] = [defaultLargeStyles.innerContainerStyle];
     if (!label) {
@@ -223,6 +226,7 @@ const MediumTextInput = (props: InputProps) => {
     }
     return style;
   }, [label]);
+
   const composedTestIDs = useMemo(() => {
     if (testID) {
       return {
