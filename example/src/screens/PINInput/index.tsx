@@ -6,7 +6,7 @@ import { PinInput, Color, Spacing } from 'senyum-uikit';
 export default function ButtonExample() {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="always">
         <View style={styles.wrapper}>
           <PinInput />
           <PinInput initialValue="123456" />

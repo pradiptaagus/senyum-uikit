@@ -12,6 +12,7 @@ const PinInput = (props: PinInputProps) => {
     errorMessage,
     initialValue = '',
     onChangeText,
+    onComplete,
     ...otherProps
   } = props;
 
@@ -22,6 +23,7 @@ const PinInput = (props: PinInputProps) => {
   );
   const [valuesInArray, setValuesInArray] = useState<string[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(-1);
+
   const error = useMemo(() => {
     if (errorMessage) {
       return true;
@@ -38,7 +40,11 @@ const PinInput = (props: PinInputProps) => {
     onChangeText && onChangeText(values);
     setValuesInArray(newValuesInArray);
     setActiveIndex(values.length);
-  }, [values, length, onChangeText]);
+    if (values.length === length) {
+      onComplete && onComplete(values);
+    }
+  }, [values, length, onChangeText, onComplete]);
+
   useEffect(() => {
     if (autoFocus) {
       setActiveIndex(0);

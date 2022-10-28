@@ -11,6 +11,7 @@ export type PinInputProps = {
   errorMessage?: string;
   initialValue?: string;
   onChangeText?: (text: string) => void;
+  onComplete?: (text: string) => void;
 };
 
 export type PinInputFieldProps = {
