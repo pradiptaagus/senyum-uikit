@@ -10,6 +10,7 @@ import Icon from './screens/Icon';
 import Checkbox from './screens/Checkbox';
 import Radio from './screens/Radio';
 import Dialog from './screens/Dialog';
+import PINInput from './screens/PINInput';
 import Appbar from './screens/Appbar';
 
 export type RootStackParamList = {
@@ -19,6 +20,7 @@ export type RootStackParamList = {
   Icon: undefined;
   Radio: undefined;
   Dialog: undefined;
+  PINInput: undefined;
   Appbar: undefined;
 };
 
@@ -40,6 +42,7 @@ export default function App() {
         <Stack.Screen name="Icon" component={Icon} />
         <Stack.Screen name="Radio" component={Radio} />
         <Stack.Screen name="Dialog" component={Dialog} />
+        <Stack.Screen name="PINInput" component={PINInput} />
         <Stack.Screen
           name="Appbar"
           component={Appbar}
