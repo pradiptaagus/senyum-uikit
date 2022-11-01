@@ -8,3 +8,4 @@ export { default as Checkbox } from './components/Checkbox';
 export { default as Radio } from './components/Radio';
 export { default as Dialog } from './components/Dialog';
 export { default as Appbar } from './components/Appbar';
+export { default as Datepicker } from './components/Datepicker';

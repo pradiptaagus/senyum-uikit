@@ -11,6 +11,7 @@ import Checkbox from './screens/Checkbox';
 import Radio from './screens/Radio';
 import Dialog from './screens/Dialog';
 import Appbar from './screens/Appbar';
+import Datepicker from './screens/Datepicker';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -20,6 +21,7 @@ export type RootStackParamList = {
   Radio: undefined;
   Dialog: undefined;
   Appbar: undefined;
+  Datepicker: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
@@ -45,6 +47,7 @@ export default function App() {
           component={Appbar}
           options={{ headerShown: false }}
         />
+        <Stack.Screen name="Datepicker" component={Datepicker} />
       </Stack.Navigator>
     </NavigationContainer>
   );

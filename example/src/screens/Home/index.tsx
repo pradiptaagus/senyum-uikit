@@ -22,6 +22,7 @@ const data = [
   'Radio',
   'Dialog',
   'Appbar',
+  'Datepicker',
 ];
 
 const Item = ({ title, onPress }: ItemProps) => (
