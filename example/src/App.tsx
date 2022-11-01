@@ -7,9 +7,12 @@ import {
 import Button from './screens/Button';
 import Home from './screens/Home';
 import Icon from './screens/Icon';
+import TextInput from './screens/TextInput';
+import Dropdown from './screens/Dropdown';
 import Checkbox from './screens/Checkbox';
 import Radio from './screens/Radio';
 import Dialog from './screens/Dialog';
+import PINInput from './screens/PINInput';
 import Appbar from './screens/Appbar';
 import Datepicker from './screens/Datepicker';
 
@@ -18,8 +21,11 @@ export type RootStackParamList = {
   Button: undefined;
   Checkbox: undefined;
   Icon: undefined;
+  TextInput: undefined;
+  Dropdown: undefined;
   Radio: undefined;
   Dialog: undefined;
+  PINInput: undefined;
   Appbar: undefined;
   Datepicker: undefined;
 };
@@ -40,8 +46,11 @@ export default function App() {
         <Stack.Screen name="Button" component={Button} />
         <Stack.Screen name="Checkbox" component={Checkbox} />
         <Stack.Screen name="Icon" component={Icon} />
+        <Stack.Screen name="TextInput" component={TextInput} />
+        <Stack.Screen name="Dropdown" component={Dropdown} />
         <Stack.Screen name="Radio" component={Radio} />
         <Stack.Screen name="Dialog" component={Dialog} />
+        <Stack.Screen name="PINInput" component={PINInput} />
         <Stack.Screen
           name="Appbar"
           component={Appbar}

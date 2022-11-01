@@ -16,11 +16,13 @@ type ItemProps = {
 
 const data = [
   'Button',
-  'Input',
+  'TextInput',
+  'Dropdown',
   'Checkbox',
   'Icon',
   'Radio',
   'Dialog',
+  'PINInput',
   'Appbar',
   'Datepicker',
 ];
