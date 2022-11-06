@@ -15,6 +15,7 @@ import Dialog from './screens/Dialog';
 import PINInput from './screens/PINInput';
 import Appbar from './screens/Appbar';
 import Datepicker from './screens/Datepicker';
+import Badge from './screens/Badge';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -28,6 +29,7 @@ export type RootStackParamList = {
   PINInput: undefined;
   Appbar: undefined;
   Datepicker: undefined;
+  Badge: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
@@ -57,6 +59,7 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Datepicker" component={Datepicker} />
+        <Stack.Screen name="Badge" component={Badge} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -12,3 +12,4 @@ export { default as Dropdown } from './components/Dropdown';
 export { default as PinInput } from './components/PinInput';
 export { default as Appbar } from './components/Appbar';
 export { default as Datepicker } from './components/Datepicker';
+export { default as Badge } from './components/Badge';
