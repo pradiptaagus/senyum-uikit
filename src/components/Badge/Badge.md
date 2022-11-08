@@ -3,43 +3,14 @@
 Badges are small status descriptors for UI elements. A badge consists of a small circle, typically containing a number or other short set of characters, that appears in proximity to another object.
 
 ## Props
-
-**visible**
-
-Type: `boolean`
-
-Default value: `true`
-
-Whether the badge is visible
-
-
-**type**
-
-Type: `success` | `warning` | `error`
-
-Default value: `success`
-
-Defining badge color
-
-**numberOfLines**
-
-Type: `number`
-
-Default value: `1`
-
-Text number of lines
-
-**style?**
-
-Type: `StyleProp<ViewStyle>`
-
-Component's style
-
-**text**
-
-Type: `string`
-
-Component's title / label
+| Props         | Type                    | Optional | Default Value | Description                  |
+| ------------- | ----------------------- | -------- | ------------- | ---------------------------- |
+| visible       | boolean                 | yes      | true          | Whether the badge is visible |
+| type          | success, warning, error | yes      | success       | Defining badge color         |
+| numberOfLines | number                  | yes      | 1             | text's number of lines       |
+| style         | ViewStyle               | yes      | undefined     | component's style            |
+| text          | string                  | no       |               | title / label                |
+| testID        | string                  | yes      | undefined     | -                            |
 
 
 ## Usage

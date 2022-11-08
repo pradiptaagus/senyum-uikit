@@ -6,4 +6,5 @@ export type BadgeProps = {
   numberOfLines?: number;
   style?: StyleProp<ViewStyle>;
   visible?: boolean;
+  testID?: string;
 };

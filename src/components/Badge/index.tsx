@@ -20,7 +20,14 @@ const styles = StyleSheet.create({
 });
 
 const Badge = (props: BadgeProps) => {
-  const { visible = true, text, type, numberOfLines = 1, style } = props;
+  const {
+    visible = true,
+    text,
+    type,
+    numberOfLines = 1,
+    style,
+    testID,
+  } = props;
 
   const bgColor = useMemo(() => {
     switch (type) {
@@ -35,13 +42,30 @@ const Badge = (props: BadgeProps) => {
     }
   }, [type]);
 
+  const composedTestIDs = useMemo(() => {
+    if (testID) {
+      return {
+        container: `${testID}-container`,
+        text: `${testID}-text`,
+      };
+    }
+    return undefined;
+  }, [testID]);
+
   if (!visible) {
     return null;
   }
 
   return (
-    <View style={[styles.default, { backgroundColor: bgColor }, style]}>
-      <Text numberOfLines={numberOfLines} style={styles.text}>
+    <View
+      testID={composedTestIDs?.container}
+      style={[styles.default, { backgroundColor: bgColor }, style]}
+    >
+      <Text
+        testID={composedTestIDs?.text}
+        numberOfLines={numberOfLines}
+        style={styles.text}
+      >
         {text}
       </Text>
     </View>
