@@ -1,10 +1,9 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import {
   Pressable,
   StyleProp,
-  Text,
+  Animated,
   TextInput as RNTextInput,
-  TextStyle,
   View,
   ViewStyle,
 } from 'react-native';
@@ -167,9 +166,13 @@ const MediumTextInput = (props: InputProps) => {
   } = props;
 
   const textInputRef = useRef<RNTextInput>(null);
+  const labelAnimatedValue = useRef(new Animated.Value(0)).current;
 
   const [focused, setFocused] = useState<boolean>(false);
   const [value, setValue] = useState<string | undefined>(defaultValue);
+  const [innerContainerHeight, setInnerContainerHeight] = useState<number>(0);
+  const [labelHeight, setLabelHeight] = useState<number>(0);
+  const [labelWidth, setLabelWidth] = useState<number>(0);
 
   const mergedInputContainerStyle = useMemo(() => {
     let style: StyleProp<ViewStyle>[] = [
@@ -211,14 +214,6 @@ const MediumTextInput = (props: InputProps) => {
     borderType,
   ]);
 
-  const mergedLabelStyle = useMemo(() => {
-    let style: TextStyle[] = [defaultLargeStyles.labelStyle];
-    if (focused || value) {
-      style.push(defaultLargeStyles.focusedLabelStyle);
-    }
-    return style;
-  }, [focused, value]);
-
   const mergedInnerContainerStyle = useMemo(() => {
     let style: ViewStyle[] = [defaultLargeStyles.innerContainerStyle];
     if (!label) {
@@ -242,6 +237,23 @@ const MediumTextInput = (props: InputProps) => {
     return undefined;
   }, [testID]);
 
+  useEffect(() => {
+    if (focused) {
+      Animated.timing(labelAnimatedValue, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(labelAnimatedValue, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focused]);
+
   return (
     <Pressable
       testID={composedTestIDs?.rootView}
@@ -255,11 +267,57 @@ const MediumTextInput = (props: InputProps) => {
         <View
           testID={composedTestIDs?.innerContainer}
           style={mergedInnerContainerStyle}
+          onLayout={({ nativeEvent }) => {
+            const {
+              layout: { height },
+            } = nativeEvent;
+            setInnerContainerHeight(height);
+          }}
         >
           {label && (
-            <Text testID={composedTestIDs?.label} style={[mergedLabelStyle]}>
+            <Animated.Text
+              testID={composedTestIDs?.label}
+              style={[
+                defaultLargeStyles.labelStyle,
+                {
+                  transform: [
+                    {
+                      scale: labelAnimatedValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [1.3, 1],
+                      }),
+                    },
+                    {
+                      translateY: labelAnimatedValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [
+                          innerContainerHeight / 2 - (1.3 * labelHeight) / 2,
+                          0,
+                        ],
+                      }),
+                    },
+                    {
+                      translateX: labelAnimatedValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [
+                          (labelWidth / 2) * 1.3 - labelWidth / 2,
+                          0,
+                        ],
+                      }),
+                    },
+                  ],
+                },
+              ]}
+              onLayout={({ nativeEvent }) => {
+                const {
+                  layout: { height, width },
+                } = nativeEvent;
+                setLabelHeight(height);
+                setLabelWidth(width);
+              }}
+            >
               {label}
-            </Text>
+            </Animated.Text>
           )}
           <RNTextInput
             ref={textInputRef}
