@@ -26,12 +26,14 @@ export type MonthLabel = {
   abbr: string;
 };
 
+export type DateLabel = { full: string; abbr: string };
+
 type DatepickerProps = {
   visible?: boolean;
   dismissable?: boolean;
   testID?: string;
   onDismiss?: () => void;
-  weekLabels?: string[];
+  dayLabels?: DateLabel[];
   monthLabels?: MonthLabel[];
   value?: Date;
   handleConfirm: (val?: Date) => void;
@@ -42,16 +44,25 @@ type DatepickerProps = {
   headerYearStyle?: StyleProp<TextStyle>;
   headerDateStyle?: StyleProp<TextStyle>;
   labelStyle?: StyleProp<TextStyle>;
-  weekLabelStyle?: StyleProp<TextStyle>;
+  dayLabelStyle?: StyleProp<TextStyle>;
   dateStyle?: StyleProp<TextStyle>;
   activeStyle?: StyleProp<ViewStyle>;
   activeTextStyle?: StyleProp<TextStyle>;
   confirmTextStyle?: StyleProp<TextStyle>;
   prevIcon?: React.ReactNode;
   nextIcon?: React.ReactNode;
+  markedDates?: Date[];
 };
 
-const _weekLabels = ['M', 'S', 'S', 'R', 'K', 'J', 'S'];
+const _dayLabels: DateLabel[] = [
+  { full: 'Minggu', abbr: 'M' },
+  { full: 'Senin', abbr: 'S' },
+  { full: 'Selasa', abbr: 'S' },
+  { full: 'Rabu', abbr: 'R' },
+  { full: 'Kamis', abbr: 'K' },
+  { full: 'Jumat', abbr: 'J' },
+  { full: 'Sabtu', abbr: 'S' },
+];
 
 const _monthLabels: MonthLabel[] = [
   { full: 'Januari', abbr: 'Jan' },
@@ -79,7 +90,7 @@ const Datepicker = (props: DatepickerProps) => {
     dismissable = true,
     testID,
     onDismiss,
-    weekLabels = _weekLabels,
+    dayLabels = _dayLabels,
     monthLabels = _monthLabels,
     value,
     handleConfirm,
@@ -90,13 +101,14 @@ const Datepicker = (props: DatepickerProps) => {
     headerYearStyle,
     headerDateStyle,
     labelStyle,
-    weekLabelStyle,
+    dayLabelStyle,
     dateStyle,
     activeStyle,
     activeTextStyle,
     confirmTextStyle,
     prevIcon,
     nextIcon,
+    markedDates,
   } = props;
 
   const [currentYear, setCurrentYear] = useState<number | undefined>(
@@ -122,6 +134,8 @@ const Datepicker = (props: DatepickerProps) => {
   const dateAnim = useRef(new Animated.Value(0)).current;
 
   const overlayAnim = useRef(new Animated.Value(0)).current;
+
+  const activeDateAnim = useRef(new Animated.Value(1)).current;
 
   const firstDay = useMemo(() => {
     if (currentYear && currentMonth) {
@@ -266,6 +280,26 @@ const Datepicker = (props: DatepickerProps) => {
   const containerStyle = useMemo((): ViewStyle => {
     return { display: visible ? 'flex' : 'none' };
   }, [visible]);
+
+  const isMarked = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    (currentDate: number) => {
+      const res = markedDates?.find((markedDate) => {
+        if (
+          markedDate.getDate() === currentDate &&
+          markedDate.getMonth() === currentMonth &&
+          markedDate.getFullYear() === currentYear
+        ) {
+          console.log('masuk');
+          return markedDate;
+        }
+        return null;
+      });
+      console.log('res', res);
+      return !!res;
+    },
+    [currentMonth, currentYear, markedDates]
+  );
 
   useEffect(() => {
     if (intention === 'year') {
@@ -471,24 +505,39 @@ const Datepicker = (props: DatepickerProps) => {
                 </Pressable>
               </View>
               <View style={styles.dateContainer}>
-                {weekLabels.map((item, i) => (
+                {dayLabels.map((item, i) => (
                   <View key={i} style={styles.dateItem}>
-                    <Text style={[styles.weekLabel, weekLabelStyle]}>
-                      {item}
+                    <Text style={[styles.dayLabel, dayLabelStyle]}>
+                      {item.abbr}
                     </Text>
                   </View>
                 ))}
               </View>
               {dateList.map((row, rowIndex) => (
-                <View key={rowIndex} style={[styles.dateContainer]}>
+                <View key={rowIndex} style={styles.dateContainer}>
                   {row.map((col, colIndex) => (
                     <Pressable
                       key={colIndex}
                       style={[styles.dateItem]}
                       onPress={() => {
-                        if (col && colIndex > 0 && colIndex < 6) {
-                          setCurrentDate(col);
+                        if (markedDates && currentYear && currentMonth) {
+                          if (!isMarked(col)) {
+                            return;
+                          }
                         }
+                        setCurrentDate(col);
+                        Animated.sequence([
+                          Animated.timing(activeDateAnim, {
+                            toValue: 0,
+                            useNativeDriver: true,
+                            duration: 0,
+                          }),
+                          Animated.timing(activeDateAnim, {
+                            toValue: 1,
+                            useNativeDriver: true,
+                            duration: 200,
+                          }),
+                        ]).start();
                       }}
                     >
                       <View
@@ -498,14 +547,23 @@ const Datepicker = (props: DatepickerProps) => {
                             !!currentMonth &&
                             isToday(currentYear, currentMonth, col) &&
                             styles.todayDateWrapper,
-                          col === currentDate && styles.activeDateWrapper,
-                          activeStyle,
                         ]}
                       >
+                        <Animated.View
+                          style={[
+                            styles.hightlightDateWrapper,
+                            col === currentDate && styles.activeDateWrapper,
+                            activeStyle,
+                            {
+                              opacity: activeDateAnim,
+                            },
+                          ]}
+                        />
                         <Text
                           style={[
                             styles.date,
-                            (colIndex === 0 || colIndex === 6) &&
+                            markedDates &&
+                              !isMarked(col) &&
                               styles.forbiddenDate,
                             !!currentYear &&
                               !!currentMonth &&
@@ -657,7 +715,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: Spacing[32],
   },
-  weekLabel: {
+  dayLabel: {
     fontSize: 14,
     fontWeight: '600',
     color: Color.grey[5],
@@ -678,12 +736,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: Spacing[32],
     height: Spacing[32],
+    position: 'relative',
+  },
+  hightlightDateWrapper: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
   todayDateWrapper: {
     backgroundColor: Color.grey[6],
+    borderRadius: 999,
   },
   activeDateWrapper: {
     backgroundColor: Color.primary[2],
+    borderRadius: 999,
   },
   today: {
     color: Color.light[1],
@@ -761,7 +829,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   yearWrapper: {
-    width: 100,
+    width: 80,
   },
   year: {
     fontSize: 16,
