@@ -8,7 +8,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import type { InputProps } from './type';
+import type { TextInputProps } from './type';
 import type { TextInputIconProps } from './type';
 import {
   defaultLargeStyles,
@@ -20,13 +20,13 @@ import { Color } from '../../base/Color';
 import { Spacing } from '../../base/Spacing';
 import { Shadow } from '../../base/Shadow';
 
-const TextInput = (props: InputProps) => {
-  const { type = 'medium', ...otherProps } = props;
+const TextInput = (props: TextInputProps) => {
+  const { size = 'medium', ...otherProps } = props;
 
   return (
     <View style={Shadow[3]}>
-      {type === 'medium' && <MediumTextInput {...otherProps} />}
-      {type !== 'medium' && <SmallTextInput {...otherProps} />}
+      {size === 'medium' && <MediumTextInput {...otherProps} />}
+      {size !== 'medium' && <SmallTextInput {...otherProps} />}
     </View>
   );
 };
@@ -42,12 +42,12 @@ const TextInputIcon = (props: TextInputIconProps) => {
   );
 };
 
-const SmallTextInput = (props: InputProps) => {
+const SmallTextInput = (props: TextInputProps) => {
   const {
     testID,
     containerStyle,
     disabled,
-    borderType,
+    status,
     inputContainerStyle,
     disabledInputContainerStyle,
     focusedInputContainerStyle,
@@ -79,7 +79,7 @@ const SmallTextInput = (props: InputProps) => {
         style.push(focusedInputContainerStyle);
       }
     } else {
-      switch (borderType) {
+      switch (status) {
         case 'success':
           style.push(defaultSmallStyles.successInputContainerStyle);
           break;
@@ -97,7 +97,7 @@ const SmallTextInput = (props: InputProps) => {
     focused,
     disabledInputContainerStyle,
     focusedInputContainerStyle,
-    borderType,
+    status,
   ]);
 
   const composedTestIDs = useMemo(() => {
@@ -150,12 +150,12 @@ const SmallTextInput = (props: InputProps) => {
   );
 };
 
-const MediumTextInput = (props: InputProps) => {
+const MediumTextInput = (props: TextInputProps) => {
   const {
     testID,
     containerStyle,
     disabled,
-    borderType,
+    status,
     inputContainerStyle,
     disabledInputContainerStyle,
     focusedInputContainerStyle,
@@ -186,7 +186,7 @@ const MediumTextInput = (props: InputProps) => {
         style.push(focusedInputContainerStyle);
       }
     } else {
-      switch (borderType) {
+      switch (status) {
         case 'success':
           style.push(defaultLargeStyles.successInputContainerStyle);
           break;
@@ -208,7 +208,7 @@ const MediumTextInput = (props: InputProps) => {
     value,
     disabledInputContainerStyle,
     focusedInputContainerStyle,
-    borderType,
+    status,
   ]);
 
   const mergedLabelStyle = useMemo(() => {
