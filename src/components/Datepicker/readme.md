@@ -30,6 +30,20 @@ Datepicker is a component which used to select a date.
 | nextIcon          | ReactNode                        | Yes      | undefined     | The custom next icon                                                         |
 | markedDates       | Date[]                           | Yes      | undefined     | The list of selectable date                                                  |
 
+## Usage
+
+```
+<Datepicker
+  visible={isOpen}
+  onDismiss={handleDatepickerVisibility}
+  handleConfirm={(val) => {
+    setIsOpen(false);
+    console.log('val', val);
+  }}
+  handleCancel={handleDatepickerVisibility}
+/>
+```
+
 ## Additional info
 
 ### dayLabels
@@ -40,13 +54,13 @@ Bellow is the example of dayLabels default value.
 
 ```
 const dayLabels: DayLabel[] = [
-  { full: 'Minggu', abbr: 'M' },
-  { full: 'Senin', abbr: 'S' },
-  { full: 'Selasa', abbr: 'S' },
-  { full: 'Rabu', abbr: 'R' },
-  { full: 'Kamis', abbr: 'K' },
-  { full: 'Jumat', abbr: 'J' },
-  { full: 'Sabtu', abbr: 'S' },
+{ full: 'Minggu', abbr: 'M' },
+{ full: 'Senin', abbr: 'S' },
+{ full: 'Selasa', abbr: 'S' },
+{ full: 'Rabu', abbr: 'R' },
+{ full: 'Kamis', abbr: 'K' },
+{ full: 'Jumat', abbr: 'J' },
+{ full: 'Sabtu', abbr: 'S' },
 ]
 ```
 
@@ -58,17 +72,17 @@ Bellow is the example of monthLabels default value.
 
 ```
 const monthLabels: MonthLabel[] = [
-  { full: 'Januari', abbr: 'Jan' },
-  { full: 'Februari', abbr: 'Feb' },
-  { full: 'Maret', abbr: 'Mar' },
-  { full: 'April', abbr: 'Apr' },
-  { full: 'Mei', abbr: 'Mei' },
-  { full: 'Juni', abbr: 'Jun' },
-  { full: 'Juli', abbr: 'Jul' },
-  { full: 'Agustus', abbr: 'Agu' },
-  { full: 'September', abbr: 'Sep' },
-  { full: 'Oktober', abbr: 'Okt' },
-  { full: 'November', abbr: 'Nov' },
-  { full: 'Desember', abbr: 'Des' },
+{ full: 'Januari', abbr: 'Jan' },
+{ full: 'Februari', abbr: 'Feb' },
+{ full: 'Maret', abbr: 'Mar' },
+{ full: 'April', abbr: 'Apr' },
+{ full: 'Mei', abbr: 'Mei' },
+{ full: 'Juni', abbr: 'Jun' },
+{ full: 'Juli', abbr: 'Jul' },
+{ full: 'Agustus', abbr: 'Agu' },
+{ full: 'September', abbr: 'Sep' },
+{ full: 'Oktober', abbr: 'Okt' },
+{ full: 'November', abbr: 'Nov' },
+{ full: 'Desember', abbr: 'Des' },
 ];
 ```
