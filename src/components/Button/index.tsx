@@ -30,7 +30,7 @@ type ButtonProps = {
   activeTextColor?: string;
   variant?: ButtonVariant;
   style?: StyleProp<ViewStyle>;
-  labelStyle?: StyleProp<TextStyle>;
+  textStyle?: StyleProp<TextStyle>;
   accessibilityLabel?: string;
   accessibilityHint?: string;
   testID?: string;
@@ -50,7 +50,7 @@ const Button = (props: ButtonProps) => {
   const [isPressIn, setIsPressIn] = useState<boolean>(false);
 
   const {
-    size,
+    size = 'medium',
     children,
     disabled,
     bordered,
@@ -60,7 +60,7 @@ const Button = (props: ButtonProps) => {
     activeTextColor,
     variant,
     style,
-    labelStyle,
+    textStyle,
     accessibilityLabel,
     accessibilityHint,
     testID,
@@ -209,7 +209,7 @@ const Button = (props: ButtonProps) => {
         />
       )}
       <Text
-        style={[styles.buttonText, buttonTextSize, buttonTextColor, labelStyle]}
+        style={[styles.buttonText, buttonTextSize, buttonTextColor, textStyle]}
       >
         {children}
       </Text>
