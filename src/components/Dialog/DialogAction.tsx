@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 
 type DialogActionProps = {
-  children?: React.ReactNode;
+  children: React.ReactNode;
   style?: StyleProp<ViewStyle>;
 };
 
