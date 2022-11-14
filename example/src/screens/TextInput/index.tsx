@@ -22,34 +22,34 @@ export default function TextInputExample() {
           <TextInput disabled label="Label" icon="Edit1" />
           <TextInput disabled value="Placeholder" icon="Edit1" />
 
-          <TextInput label="Label" type="small" />
-          <TextInput label="Label" type="small" borderType="success" />
-          <TextInput label="Label" type="small" borderType="warning" />
-          <TextInput label="Label" type="small" borderType="error" />
-          <TextInput disabled label="Label" type="small" />
-          <TextInput disabled value="Placeholder" type="small" />
+          <TextInput label="Label" size="small" />
+          <TextInput label="Label" size="small" borderType="success" />
+          <TextInput label="Label" size="small" borderType="warning" />
+          <TextInput label="Label" size="small" borderType="error" />
+          <TextInput disabled label="Label" size="small" />
+          <TextInput disabled value="Placeholder" size="small" />
 
-          <TextInput label="Label" type="small" icon="Edit1" />
+          <TextInput label="Label" size="small" icon="Edit1" />
           <TextInput
             label="Label"
-            type="small"
+            size="small"
             borderType="success"
             icon="Edit1"
           />
           <TextInput
             label="Label"
-            type="small"
+            size="small"
             borderType="warning"
             icon="Edit1"
           />
           <TextInput
             label="Label"
-            type="small"
+            size="small"
             borderType="error"
             icon="Edit1"
           />
-          <TextInput disabled label="Label" type="small" icon="Edit1" />
-          <TextInput disabled value="Placeholder" type="small" icon="Edit1" />
+          <TextInput disabled label="Label" size="small" icon="Edit1" />
+          <TextInput disabled value="Placeholder" size="small" icon="Edit1" />
         </View>
       </ScrollView>
     </SafeAreaView>

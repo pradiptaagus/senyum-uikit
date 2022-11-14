@@ -14,7 +14,7 @@ export type TextInputIconProps = {
 };
 
 export type InputProps = Omit<TextInputProps, 'style'> & {
-  type?: 'small' | 'medium';
+  size?: 'small' | 'medium';
   containerStyle?: StyleProp<ViewStyle>;
   disabled?: boolean;
   borderType?: HighlightType;

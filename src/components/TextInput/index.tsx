@@ -20,12 +20,12 @@ import { Spacing } from '../../base/Spacing';
 import { Shadow } from '../../base/Shadow';
 
 const TextInput = (props: InputProps) => {
-  const { type = 'medium', ...otherProps } = props;
+  const { size = 'medium', ...otherProps } = props;
 
   return (
     <View style={Shadow[3]}>
-      {type === 'medium' && <MediumTextInput {...otherProps} />}
-      {type !== 'medium' && <SmallTextInput {...otherProps} />}
+      {size === 'medium' && <MediumTextInput {...otherProps} />}
+      {size !== 'medium' && <SmallTextInput {...otherProps} />}
     </View>
   );
 };
@@ -241,13 +241,13 @@ const MediumTextInput = (props: InputProps) => {
     if (focused) {
       Animated.timing(labelAnimatedValue, {
         toValue: 1,
-        duration: 300,
+        duration: 200,
         useNativeDriver: true,
       }).start();
     } else {
       Animated.timing(labelAnimatedValue, {
         toValue: 0,
-        duration: 300,
+        duration: 200,
         useNativeDriver: true,
       }).start();
     }
@@ -291,7 +291,7 @@ const MediumTextInput = (props: InputProps) => {
                       translateY: labelAnimatedValue.interpolate({
                         inputRange: [0, 1],
                         outputRange: [
-                          innerContainerHeight / 2 - (1.3 * labelHeight) / 2,
+                          innerContainerHeight / 2 - (1.333 * labelHeight) / 2,
                           0,
                         ],
                       }),
