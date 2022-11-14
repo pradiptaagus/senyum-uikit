@@ -9,7 +9,7 @@ type AppbarActionProps = {
   size?: number;
   color?: string;
   accessibilityLabel?: string;
-  onPress?: () => void;
+  onPress: () => void;
   style?: StyleProp<ViewStyle>;
   testID?: string;
 };
