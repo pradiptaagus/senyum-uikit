@@ -5,7 +5,7 @@ A component to allow users to input text.
 ## Props
 | Props                       | Type                      | Optional | Default Value | Description                        |
 | --------------------------- | ------------------------- | -------- | ------------- | ---------------------------------- |
-| type                        | small / medium            | yes      | medium        | text input size                    |
+| size                        | small / medium            | yes      | medium        | text input size                    |
 | containerStyle              | ViewStyle                 | yes      | undefined     | custom container style             |
 | disabled                    | boolean                   | yes      | false         | whether this textinput is disabled |
 | borderType                  | success / warning / error | yes      | undefined     | border color                       |
