@@ -2,3 +2,4 @@ build
 coverage
 example/android
 example/ios
+lib
