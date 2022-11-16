@@ -10,13 +10,11 @@ npm install senyum-uikit
 
 ## Usage
 
-```js
-import { multiply } from 'senyum-uikit';
-
-// ...
-
-const result = await multiply(3, 7);
+```ts
+import { Button } from 'senyum-uikit';
 ```
+
+More about each component please read on `src/components` and click desired component.
 
 ## Contributing
 
