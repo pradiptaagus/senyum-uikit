@@ -9,45 +9,30 @@ export default function TextInputExample() {
       <ScrollView keyboardShouldPersistTaps="always">
         <View style={styles.wrapper}>
           <TextInput label="Label" />
-          <TextInput label="Label" borderType="success" />
-          <TextInput label="Label" borderType="warning" />
-          <TextInput label="Label" borderType="error" />
+          <TextInput label="Label" status="success" />
+          <TextInput label="Label" status="warning" />
+          <TextInput label="Label" status="error" />
           <TextInput disabled label="Label" />
           <TextInput disabled value="Placeholder" />
 
           <TextInput label="Label" icon="Edit1" />
-          <TextInput label="Label" icon="Edit1" borderType="success" />
-          <TextInput label="Label" icon="Edit1" borderType="warning" />
-          <TextInput label="Label" icon="Edit1" borderType="error" />
+          <TextInput label="Label" icon="Edit1" status="success" />
+          <TextInput label="Label" icon="Edit1" status="warning" />
+          <TextInput label="Label" icon="Edit1" status="error" />
           <TextInput disabled label="Label" icon="Edit1" />
           <TextInput disabled value="Placeholder" icon="Edit1" />
 
           <TextInput label="Label" size="small" />
-          <TextInput label="Label" size="small" borderType="success" />
-          <TextInput label="Label" size="small" borderType="warning" />
-          <TextInput label="Label" size="small" borderType="error" />
+          <TextInput label="Label" size="small" status="success" />
+          <TextInput label="Label" size="small" status="warning" />
+          <TextInput label="Label" size="small" status="error" />
           <TextInput disabled label="Label" size="small" />
           <TextInput disabled value="Placeholder" size="small" />
 
           <TextInput label="Label" size="small" icon="Edit1" />
-          <TextInput
-            label="Label"
-            size="small"
-            borderType="success"
-            icon="Edit1"
-          />
-          <TextInput
-            label="Label"
-            size="small"
-            borderType="warning"
-            icon="Edit1"
-          />
-          <TextInput
-            label="Label"
-            size="small"
-            borderType="error"
-            icon="Edit1"
-          />
+          <TextInput label="Label" size="small" status="success" icon="Edit1" />
+          <TextInput label="Label" size="small" status="warning" icon="Edit1" />
+          <TextInput label="Label" size="small" status="error" icon="Edit1" />
           <TextInput disabled label="Label" size="small" icon="Edit1" />
           <TextInput disabled value="Placeholder" size="small" icon="Edit1" />
         </View>

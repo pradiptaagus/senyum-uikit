@@ -7,7 +7,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import type { InputProps } from './type';
+import type { TextInputProps } from './type';
 import type { TextInputIconProps } from './type';
 import {
   defaultLargeStyles,
@@ -19,7 +19,7 @@ import { Color } from '../../base/Color';
 import { Spacing } from '../../base/Spacing';
 import { Shadow } from '../../base/Shadow';
 
-const TextInput = (props: InputProps) => {
+const TextInput = (props: TextInputProps) => {
   const { size = 'medium', ...otherProps } = props;
 
   return (
@@ -41,12 +41,12 @@ const TextInputIcon = (props: TextInputIconProps) => {
   );
 };
 
-const SmallTextInput = (props: InputProps) => {
+const SmallTextInput = (props: Omit<TextInputProps, 'labelStyle'>) => {
   const {
     testID,
     containerStyle,
     disabled,
-    borderType,
+    status,
     inputContainerStyle,
     disabledInputContainerStyle,
     focusedInputContainerStyle,
@@ -78,7 +78,7 @@ const SmallTextInput = (props: InputProps) => {
         style.push(focusedInputContainerStyle);
       }
     } else {
-      switch (borderType) {
+      switch (status) {
         case 'success':
           style.push(defaultSmallStyles.successInputContainerStyle);
           break;
@@ -96,7 +96,7 @@ const SmallTextInput = (props: InputProps) => {
     focused,
     disabledInputContainerStyle,
     focusedInputContainerStyle,
-    borderType,
+    status,
   ]);
 
   const composedTestIDs = useMemo(() => {
@@ -149,16 +149,17 @@ const SmallTextInput = (props: InputProps) => {
   );
 };
 
-const MediumTextInput = (props: InputProps) => {
+const MediumTextInput = (props: TextInputProps) => {
   const {
     testID,
     containerStyle,
     disabled,
-    borderType,
+    status,
     inputContainerStyle,
     disabledInputContainerStyle,
     focusedInputContainerStyle,
     label,
+    labelStyle,
     onChangeText,
     value: defaultValue,
     icon,
@@ -189,7 +190,7 @@ const MediumTextInput = (props: InputProps) => {
         style.push(focusedInputContainerStyle);
       }
     } else {
-      switch (borderType) {
+      switch (status) {
         case 'success':
           style.push(defaultLargeStyles.successInputContainerStyle);
           break;
@@ -211,7 +212,7 @@ const MediumTextInput = (props: InputProps) => {
     value,
     disabledInputContainerStyle,
     focusedInputContainerStyle,
-    borderType,
+    status,
   ]);
 
   const mergedInnerContainerStyle = useMemo(() => {
@@ -241,13 +242,13 @@ const MediumTextInput = (props: InputProps) => {
     if (focused) {
       Animated.timing(labelAnimatedValue, {
         toValue: 1,
-        duration: 200,
+        duration: 100,
         useNativeDriver: true,
       }).start();
     } else {
       Animated.timing(labelAnimatedValue, {
         toValue: 0,
-        duration: 200,
+        duration: 100,
         useNativeDriver: true,
       }).start();
     }
@@ -279,6 +280,7 @@ const MediumTextInput = (props: InputProps) => {
               testID={composedTestIDs?.label}
               style={[
                 defaultLargeStyles.labelStyle,
+                labelStyle,
                 {
                   transform: [
                     {
