@@ -25,7 +25,7 @@
     "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "prepare": "husky install && bob build",
+    "prepare": "bob build",
     "release": "release-it",
     "example": "yarn --cwd example",
     "bootstrap": "yarn example && yarn && yarn example pods",
@@ -36,13 +36,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/pradiptaagus/senyum-uikit/senyum-uikit",
+  "repository": "https://github.com/pradiptaagus/senyum-uikit",
   "author": "pradiptaagus <igedeaguspradipta@gmail.com> (https://github.com/pradiptaagus/senyum-uikit)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pradiptaagus/senyum-uikit/senyum-uikit/issues"
+    "url": "https://github.com/pradiptaagus/senyum-uikit/issues"
   },
-  "homepage": "https://github.com/pradiptaagus/senyum-uikit/senyum-uikit#readme",
+  "homepage": "https://github.com/pradiptaagus/senyum-uikit#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
