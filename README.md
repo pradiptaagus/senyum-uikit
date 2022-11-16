@@ -1,5 +1,7 @@
 # senyum-uikit
+
 Senyum UI Kit
+
 ## Installation
 
 ```sh
@@ -9,7 +11,7 @@ npm install senyum-uikit
 ## Usage
 
 ```js
-import { multiply } from "senyum-uikit";
+import { multiply } from 'senyum-uikit';
 
 // ...
 

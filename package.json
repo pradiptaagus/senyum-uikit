@@ -25,10 +25,11 @@
     "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "prepare": "bob build",
+    "prepare": "husky install && bob build",
     "release": "release-it",
     "example": "yarn --cwd example",
-    "bootstrap": "yarn example && yarn && yarn example pods"
+    "bootstrap": "yarn example && yarn && yarn example pods",
+    "format": "prettier --write ."
   },
   "keywords": [
     "react-native",
@@ -57,10 +58,11 @@
     "commitlint": "^17.0.2",
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^8.0.2",
     "jest": "^28.1.1",
+    "lint-staged": "^13.0.3",
     "pod-install": "^0.1.0",
-    "prettier": "^2.0.5",
+    "prettier": "2.7.1",
     "react": "17.0.2",
     "react-native": "0.68.2",
     "react-native-builder-bob": "^0.18.3",
@@ -151,5 +153,8 @@
         }
       ]
     ]
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }
