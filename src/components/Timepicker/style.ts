@@ -32,13 +32,12 @@ const styles = StyleSheet.create({
   body: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: Spacing[38],
-    paddingHorizontal: Spacing[48],
+    padding: Spacing[38],
   },
   clock: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
+    width: 240,
+    height: 240,
+    borderRadius: 120,
     backgroundColor: Color.light[3],
   },
   outerHoursContainer: {
