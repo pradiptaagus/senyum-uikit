@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native';
 import { FontSize } from '../../base/Font';
 import { Color } from '../../base/Color';
+import { ThemeContext } from '../../core/Provider';
 
 type DialogTitleProps = {
   children: React.ReactNode;
@@ -16,7 +17,24 @@ type DialogTitleProps = {
 const DialogTitle = (props: DialogTitleProps) => {
   const { children, style } = props;
 
-  return <Text style={[styles.title, style]}>{children}</Text>;
+  return (
+    <ThemeContext.Consumer>
+      {(ctx) => (
+        <Text
+          style={[
+            styles.title,
+            {
+              fontFamily: ctx.fonts.demiBold.fontFamily,
+              fontWeight: ctx.fonts.demiBold.fontWeight,
+            },
+            style,
+          ]}
+        >
+          {children}
+        </Text>
+      )}
+    </ThemeContext.Consumer>
+  );
 };
 
 const styles = StyleSheet.create({

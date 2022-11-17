@@ -10,6 +10,18 @@ npm install senyum-uikit
 
 ## Usage
 
+Wrap you root project with `senyum-uikit` Provider.
+
+```ts
+import { Provider, DefaultTheme } from 'senyum-uikit';
+
+export default App() {
+    <Provider theme={DefaultTheme}>
+        // Your code
+    </Provider>
+}
+```
+
 ```ts
 import { Button } from 'senyum-uikit';
 ```

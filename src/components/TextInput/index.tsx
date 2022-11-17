@@ -23,7 +23,7 @@ const TextInput = (props: TextInputProps) => {
   const { size = 'medium', ...otherProps } = props;
 
   return (
-    <View style={Shadow[3]}>
+    <View style={Shadow[1]}>
       {size === 'medium' && <MediumTextInput {...otherProps} />}
       {size !== 'medium' && <SmallTextInput {...otherProps} />}
     </View>

@@ -1,20 +1,22 @@
 # TextInput
 
-`TextInput` is a component which used to get user text input.
+A component to allow users to input text.
 
 ## TextInputProps
 
-| Props                       | Type                 | Optional | Default value | Description                                     |
-| --------------------------- | -------------------- | -------- | ------------- | ----------------------------------------------- |
-| size                        | 'small' or 'medium'  | Yes      | 'medium'      | Define the `TextInput` size                     |
-| containerStyle              | StyleProp<ViewStyle> | Yes      | undefined     | Define the custom container style               |
-| disabled                    | boolean              | Yes      | undefined     | Define the disable status                       |
-| status                      | [TextInputStatus]    | Yes      | undefined     | Define the `TextInput` status                   |
-| inputContainerStyle         | StyleProp<ViewStyle> | Yes      | undefined     | Define the custom container style               |
-| disabledInputContainerStyle | StyleProp<ViewStyle> | Yes      | undefined     | Define the custom container style when disabled |
-| focusedInputContainerStyle  | StyleProp<ViewStyle> | Yes      | undefined     | Define the custom container style when focus    |
-| inputStyle                  | StyleProp<TextStyle> | Yes      | undefined     | Define the custom input style                   |
-| label                       | string               | Yes      | undefined     | Define the label                                |
-| labelStyle                  | StyleProp<TextStyle> | Yes      | undefined     | Define the custom label style                   |
-| testID                      | string               | Yes      | undefined     | Define the testID                               |
-| icon                        | keyof typeof `Icon`  | Yes      | undefined     | Define the icon for `TextInput`                 |
+| Props                       | Type                                                         | Optional | Default Value | Description                      |
+| --------------------------- | ------------------------------------------------------------ | -------- | ------------- | -------------------------------- |
+| size                        | 'small' or 'medium'                                          | Yes      | medium        | The text input size              |
+| containerStyle              | StyleProp<ViewStyle>                                         | Yes      | undefined     | The custom container style       |
+| disabled                    | boolean                                                      | Yes      | false         | Define disable status            |
+| status                      | [TextInputStatus](#textinputstatus--success--warning--error) | Yes      | undefined     | Define the `TextInput` status    |
+| inputContainerStyle         | StyleProp<ViewStyle>                                         | Yes      | undefined     | The custom input container style |
+| disabledInputContainerStyle | StyleProp<ViewStyle>                                         | Yes      | undefined     | the custom disabled style        |
+| focusedInputContainerStyle  | StyleProp<ViewStyle>                                         | Yes      | undefined     | the custom focused style         |
+| inputStyle                  | StyleProp<TextStyle>                                         | Yes      | undefined     | the custom input style           |
+| label                       | string                                                       | Yes      | undefined     | The `TextInput` label            |
+| labelStyle                  | TextStyle                                                    | Yes      | undefined     | The custom label style           |
+| testID                      | string                                                       | Yes      | undefined     | -                                |
+| icon                        | keyof typeof `Icon`                                          | Yes      | undefined     | The icon of `TextInput`          |
+
+### TextInputStatus = 'success' | 'warning' | 'error';
