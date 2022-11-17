@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
-import { Color, Spacing, TextInput } from 'senyum-uikit';
+import { Color, Spacing, TextInput, Timepicker } from 'senyum-uikit';
 
 export default function TextInputExample() {
   return (
@@ -37,6 +37,7 @@ export default function TextInputExample() {
           <TextInput disabled value="Placeholder" size="small" icon="Edit1" />
         </View>
       </ScrollView>
+      <Timepicker />
     </SafeAreaView>
   );
 }
