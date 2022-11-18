@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Modal, View, Text, Pressable, Animated } from 'react-native';
 import styles from './style';
 import { Hour, Minute } from './type';
@@ -125,7 +131,7 @@ const HourSelection = (props: HourSelectionProps) => {
   return (
     <View style={styles.clock}>
       <View style={styles.outerHoursContainer}>
-        {selectedHour <= 12 && <HourClockWise selectedHour={selectedHour} />}
+        <HourClockWise selectedHour={selectedHour} />
         <HourOption
           hour={1}
           selectedHour={selectedHour}
@@ -188,7 +194,6 @@ const HourSelection = (props: HourSelectionProps) => {
         />
       </View>
       <View style={styles.innerHoursContainer}>
-        {selectedHour > 12 && <HourClockWise selectedHour={selectedHour} />}
         <HourOption
           hour={13}
           selectedHour={selectedHour}
@@ -285,13 +290,6 @@ const HourOption = (props: HourOptionProps) => {
     return { transform: [{ rotate: `-${degree}deg` }] };
   }, [hour]);
 
-  const selectionStyle = useMemo(() => {
-    if (hour === selectedHour) {
-      return styles.selectedHourTextContainer;
-    }
-    return undefined;
-  }, [hour, selectedHour]);
-
   const textSelectionStyle = useMemo(() => {
     if (hour === selectedHour) {
       return styles.selectedHourText;
@@ -309,7 +307,7 @@ const HourOption = (props: HourOptionProps) => {
   return (
     <View style={[styles.hour, containerRotation]}>
       <Pressable
-        style={[styles.hourTextContainer, selectionStyle, textRotation]}
+        style={[styles.hourTextContainer, textRotation]}
         onPress={() => {
           onPress && onPress(hour);
         }}
@@ -419,13 +417,6 @@ const MinuteOption = (props: MinuteOptionProps) => {
     return { transform: [{ rotate: `-${degree}deg` }] };
   }, [minute]);
 
-  const selectionStyle = useMemo(() => {
-    if (minute === selectedMinute) {
-      return styles.selectedHourTextContainer;
-    }
-    return undefined;
-  }, [minute, selectedMinute]);
-
   const textSelectionStyle = useMemo(() => {
     if (minute === selectedMinute) {
       return styles.selectedHourText;
@@ -436,7 +427,7 @@ const MinuteOption = (props: MinuteOptionProps) => {
   return (
     <View style={[styles.hour, containerRotation]}>
       <Pressable
-        style={[styles.hourTextContainer, selectionStyle, textRotation]}
+        style={[styles.hourTextContainer, textRotation]}
         onPress={() => {
           onPress && onPress(minute);
         }}
@@ -452,30 +443,109 @@ const MinuteOption = (props: MinuteOptionProps) => {
 const HourClockWise = (props: HourClockWiseProps) => {
   const { selectedHour } = props;
 
-  const containerRotation = useMemo(() => {
+  const degreeAnimationValue = useRef(new Animated.Value(0)).current;
+  const topMarginAnimationValue = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
     const degree = (selectedHour % 12) * 30;
-    return { transform: [{ rotate: `${degree}deg` }] };
+    Animated.timing(degreeAnimationValue, {
+      toValue: degree,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+    if (selectedHour > 12) {
+      Animated.timing(topMarginAnimationValue, {
+        toValue: 28,
+        duration: 300,
+        useNativeDriver: false,
+      }).start();
+    } else {
+      Animated.timing(topMarginAnimationValue, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: false,
+      }).start();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedHour]);
 
   return (
-    <View style={[styles.clockWise, containerRotation]}>
-      <View style={styles.clockWiseRule} />
-    </View>
+    <Animated.View
+      style={[
+        styles.clockWise,
+        {
+          transform: [
+            {
+              rotate: degreeAnimationValue.interpolate({
+                inputRange: [0, 360],
+                outputRange: ['0deg', '360deg'],
+              }),
+            },
+          ],
+        },
+      ]}
+    >
+      <View style={styles.clockWiseInner}>
+        <Animated.View
+          style={[
+            styles.clockWiseHeadDot,
+            { transform: [{ translateY: topMarginAnimationValue }] },
+          ]}
+        />
+        <Animated.View
+          style={[styles.clockWiseRule, { marginTop: topMarginAnimationValue }]}
+        />
+        <View style={styles.clockWiseDot} />
+      </View>
+    </Animated.View>
   );
 };
 
 const MinuteClockWise = (props: MinuteClockWiseProps) => {
   const { selectedMinute } = props;
 
-  const containerRotation = useMemo(() => {
+  const degreeAnimationValue = useRef(new Animated.Value(0)).current;
+  const topMarginAnimationValue = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
     const degree = (selectedMinute / 5) * 30;
-    return { transform: [{ rotate: `${degree}deg` }] };
+    Animated.timing(degreeAnimationValue, {
+      toValue: degree,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMinute]);
 
   return (
-    <View style={[styles.clockWise, containerRotation]}>
-      <View style={styles.clockWiseRule} />
-    </View>
+    <Animated.View
+      style={[
+        styles.clockWise,
+        {
+          transform: [
+            {
+              rotate: degreeAnimationValue.interpolate({
+                inputRange: [0, 360],
+                outputRange: ['0deg', '360deg'],
+              }),
+            },
+          ],
+        },
+      ]}
+    >
+      <View style={styles.clockWiseInner}>
+        <Animated.View
+          style={[
+            styles.clockWiseHeadDot,
+            { transform: [{ translateY: topMarginAnimationValue }] },
+          ]}
+        />
+        <Animated.View
+          style={[styles.clockWiseRule, { marginTop: topMarginAnimationValue }]}
+        />
+        <View style={styles.clockWiseDot} />
+      </View>
+    </Animated.View>
   );
 };
 

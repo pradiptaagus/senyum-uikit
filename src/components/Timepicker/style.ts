@@ -7,11 +7,12 @@ const styles = StyleSheet.create({
   modal: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#2E303199',
+    backgroundColor: '#2E3031bb',
     flex: 1,
   },
   container: {
     backgroundColor: Color.light[1],
+    elevation: 10,
   },
   header: {
     paddingVertical: Spacing[16],
@@ -79,10 +80,32 @@ const styles = StyleSheet.create({
     bottom: 5,
     justifyContent: 'flex-start',
   },
-  clockWiseRule: {
+  clockWiseInner: {
     height: '50%',
+  },
+  clockWiseRule: {
+    flex: 1,
     width: 1,
     backgroundColor: Color.blue[1],
+    alignSelf: 'center',
+  },
+  clockWiseDot: {
+    backgroundColor: Color.blue[1],
+    width: 2,
+    height: 2,
+    borderRadius: 1,
+    alignSelf: 'center',
+    position: 'absolute',
+    bottom: 0,
+  },
+  clockWiseHeadDot: {
+    backgroundColor: Color.blue[1],
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    alignSelf: 'center',
+    position: 'absolute',
+    top: 0,
   },
   hourText: {
     color: 'black',
