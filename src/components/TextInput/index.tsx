@@ -1,14 +1,13 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import {
   Pressable,
   StyleProp,
-  Text,
+  Animated,
   TextInput as RNTextInput,
-  TextStyle,
   View,
   ViewStyle,
 } from 'react-native';
-import type { InputProps } from './type';
+import type { TextInputProps } from './type';
 import type { TextInputIconProps } from './type';
 import {
   defaultLargeStyles,
@@ -20,13 +19,13 @@ import { Color } from '../../base/Color';
 import { Spacing } from '../../base/Spacing';
 import { Shadow } from '../../base/Shadow';
 
-const TextInput = (props: InputProps) => {
-  const { type = 'medium', ...otherProps } = props;
+const TextInput = (props: TextInputProps) => {
+  const { size = 'medium', ...otherProps } = props;
 
   return (
-    <View style={Shadow[3]}>
-      {type === 'medium' && <MediumTextInput {...otherProps} />}
-      {type !== 'medium' && <SmallTextInput {...otherProps} />}
+    <View style={Shadow[1]}>
+      {size === 'medium' && <MediumTextInput {...otherProps} />}
+      {size !== 'medium' && <SmallTextInput {...otherProps} />}
     </View>
   );
 };
@@ -42,12 +41,12 @@ const TextInputIcon = (props: TextInputIconProps) => {
   );
 };
 
-const SmallTextInput = (props: InputProps) => {
+const SmallTextInput = (props: Omit<TextInputProps, 'labelStyle'>) => {
   const {
     testID,
     containerStyle,
     disabled,
-    borderType,
+    status,
     inputContainerStyle,
     disabledInputContainerStyle,
     focusedInputContainerStyle,
@@ -79,7 +78,7 @@ const SmallTextInput = (props: InputProps) => {
         style.push(focusedInputContainerStyle);
       }
     } else {
-      switch (borderType) {
+      switch (status) {
         case 'success':
           style.push(defaultSmallStyles.successInputContainerStyle);
           break;
@@ -97,7 +96,7 @@ const SmallTextInput = (props: InputProps) => {
     focused,
     disabledInputContainerStyle,
     focusedInputContainerStyle,
-    borderType,
+    status,
   ]);
 
   const composedTestIDs = useMemo(() => {
@@ -150,16 +149,17 @@ const SmallTextInput = (props: InputProps) => {
   );
 };
 
-const MediumTextInput = (props: InputProps) => {
+const MediumTextInput = (props: TextInputProps) => {
   const {
     testID,
     containerStyle,
     disabled,
-    borderType,
+    status,
     inputContainerStyle,
     disabledInputContainerStyle,
     focusedInputContainerStyle,
     label,
+    labelStyle,
     onChangeText,
     value: defaultValue,
     icon,
@@ -167,9 +167,13 @@ const MediumTextInput = (props: InputProps) => {
   } = props;
 
   const textInputRef = useRef<RNTextInput>(null);
+  const labelAnimatedValue = useRef(new Animated.Value(0)).current;
 
   const [focused, setFocused] = useState<boolean>(false);
   const [value, setValue] = useState<string | undefined>(defaultValue);
+  const [innerContainerHeight, setInnerContainerHeight] = useState<number>(0);
+  const [labelHeight, setLabelHeight] = useState<number>(0);
+  const [labelWidth, setLabelWidth] = useState<number>(0);
 
   const mergedInputContainerStyle = useMemo(() => {
     let style: StyleProp<ViewStyle>[] = [
@@ -186,7 +190,7 @@ const MediumTextInput = (props: InputProps) => {
         style.push(focusedInputContainerStyle);
       }
     } else {
-      switch (borderType) {
+      switch (status) {
         case 'success':
           style.push(defaultLargeStyles.successInputContainerStyle);
           break;
@@ -208,16 +212,8 @@ const MediumTextInput = (props: InputProps) => {
     value,
     disabledInputContainerStyle,
     focusedInputContainerStyle,
-    borderType,
+    status,
   ]);
-
-  const mergedLabelStyle = useMemo(() => {
-    let style: TextStyle[] = [defaultLargeStyles.labelStyle];
-    if (focused || value) {
-      style.push(defaultLargeStyles.focusedLabelStyle);
-    }
-    return style;
-  }, [focused, value]);
 
   const mergedInnerContainerStyle = useMemo(() => {
     let style: ViewStyle[] = [defaultLargeStyles.innerContainerStyle];
@@ -242,6 +238,23 @@ const MediumTextInput = (props: InputProps) => {
     return undefined;
   }, [testID]);
 
+  useEffect(() => {
+    if (focused) {
+      Animated.timing(labelAnimatedValue, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(labelAnimatedValue, {
+        toValue: 0,
+        duration: 100,
+        useNativeDriver: true,
+      }).start();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focused]);
+
   return (
     <Pressable
       testID={composedTestIDs?.rootView}
@@ -255,11 +268,58 @@ const MediumTextInput = (props: InputProps) => {
         <View
           testID={composedTestIDs?.innerContainer}
           style={mergedInnerContainerStyle}
+          onLayout={({ nativeEvent }) => {
+            const {
+              layout: { height },
+            } = nativeEvent;
+            setInnerContainerHeight(height);
+          }}
         >
           {label && (
-            <Text testID={composedTestIDs?.label} style={[mergedLabelStyle]}>
+            <Animated.Text
+              testID={composedTestIDs?.label}
+              style={[
+                defaultLargeStyles.labelStyle,
+                labelStyle,
+                {
+                  transform: [
+                    {
+                      scale: labelAnimatedValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [1.3, 1],
+                      }),
+                    },
+                    {
+                      translateY: labelAnimatedValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [
+                          innerContainerHeight / 2 - (1.333 * labelHeight) / 2,
+                          0,
+                        ],
+                      }),
+                    },
+                    {
+                      translateX: labelAnimatedValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [
+                          (labelWidth / 2) * 1.3 - labelWidth / 2,
+                          0,
+                        ],
+                      }),
+                    },
+                  ],
+                },
+              ]}
+              onLayout={({ nativeEvent }) => {
+                const {
+                  layout: { height, width },
+                } = nativeEvent;
+                setLabelHeight(height);
+                setLabelWidth(width);
+              }}
+            >
               {label}
-            </Text>
+            </Animated.Text>
           )}
           <RNTextInput
             ref={textInputRef}

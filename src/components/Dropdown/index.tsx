@@ -12,6 +12,7 @@ import { defaultStyles, dropdownIconStyles } from './style';
 import { Icon } from '../../base/Icon';
 import { Color } from '../../base/Color';
 import { Spacing } from '../../base/Spacing';
+import { ThemeContext } from '../../core/Provider';
 
 const DropdownIcon = () => {
   const CurrentIcon = Icon.ChevronDown;
@@ -28,12 +29,11 @@ const Dropdown = (props: DropdownProps) => {
   const {
     containerStyle,
     disabled,
-    borderType,
+    status,
     inputContainerStyle,
     disabledInputContainerStyle,
     inputStyle,
     label,
-    labelProps,
     labelStyle,
     testID,
     value,
@@ -47,6 +47,7 @@ const Dropdown = (props: DropdownProps) => {
     ];
     return style;
   }, []);
+
   const mergedInputContainerStyle = useMemo(() => {
     let style: StyleProp<ViewStyle>[] = [defaultStyles.inputContainerStyle];
     if (disabled) {
@@ -55,7 +56,7 @@ const Dropdown = (props: DropdownProps) => {
         style.push(disabledInputContainerStyle);
       }
     } else {
-      switch (borderType) {
+      switch (status) {
         case 'success':
           style.push(defaultStyles.successInputContainerStyle);
           break;
@@ -71,7 +72,8 @@ const Dropdown = (props: DropdownProps) => {
       style.push(defaultStyles.filledInputContainerStyle);
     }
     return style;
-  }, [disabled, value, disabledInputContainerStyle, borderType]);
+  }, [disabled, value, disabledInputContainerStyle, status]);
+
   const mergedLabelStyle = useMemo(() => {
     let style: TextStyle[] = [defaultStyles.labelStyle];
     if (value) {
@@ -79,6 +81,7 @@ const Dropdown = (props: DropdownProps) => {
     }
     return style;
   }, [value]);
+
   const mergedInnerContainerStyle = useMemo(() => {
     let style: ViewStyle[] = [defaultStyles.innerContainerStyle];
     if (!label) {
@@ -86,6 +89,7 @@ const Dropdown = (props: DropdownProps) => {
     }
     return style;
   }, [label]);
+
   const composedTestIDs = useMemo(() => {
     if (testID) {
       return {
@@ -101,45 +105,62 @@ const Dropdown = (props: DropdownProps) => {
   }, [testID]);
 
   return (
-    <View
-      testID={composedTestIDs?.rootView}
-      style={[mergedContainerStyle, containerStyle]}
-    >
-      <TouchableNativeFeedback
-        testID={composedTestIDs?.pressable}
-        disabled={disabled}
-        background={TouchableNativeFeedback.Ripple('#ddd', false)}
-        onPress={onPress}
-      >
+    <ThemeContext.Consumer>
+      {(ctx) => (
         <View
-          testID={composedTestIDs?.inputContainer}
-          style={[mergedInputContainerStyle, inputContainerStyle]}
+          testID={composedTestIDs?.rootView}
+          style={[mergedContainerStyle, containerStyle]}
         >
-          <View
-            testID={composedTestIDs?.innerContainer}
-            style={mergedInnerContainerStyle}
+          <TouchableNativeFeedback
+            testID={composedTestIDs?.pressable}
+            disabled={disabled}
+            background={TouchableNativeFeedback.Ripple('#ddd', false)}
+            onPress={onPress}
           >
-            {label && (
-              <Text
-                testID={composedTestIDs?.label}
-                style={[mergedLabelStyle, labelStyle]}
-                {...labelProps}
-              >
-                {label}
-              </Text>
-            )}
-            <Text
-              testID={composedTestIDs?.value}
-              numberOfLines={1}
-              style={[defaultStyles.inputStyle, inputStyle]}
+            <View
+              testID={composedTestIDs?.inputContainer}
+              style={[mergedInputContainerStyle, inputContainerStyle]}
             >
-              {value}
-            </Text>
-          </View>
-          <DropdownIcon />
+              <View
+                testID={composedTestIDs?.innerContainer}
+                style={mergedInnerContainerStyle}
+              >
+                {label && (
+                  <Text
+                    testID={composedTestIDs?.label}
+                    style={[
+                      mergedLabelStyle,
+                      {
+                        fontFamily: ctx.fonts.regular.fontFamily,
+                        fontWeight: ctx.fonts.regular.fontWeight,
+                      },
+                      labelStyle,
+                    ]}
+                  >
+                    {label}
+                  </Text>
+                )}
+                <Text
+                  testID={composedTestIDs?.value}
+                  numberOfLines={1}
+                  style={[
+                    defaultStyles.inputStyle,
+                    {
+                      fontFamily: ctx.fonts.regular.fontFamily,
+                      fontWeight: ctx.fonts.regular.fontWeight,
+                    },
+                    inputStyle,
+                  ]}
+                >
+                  {value}
+                </Text>
+              </View>
+              <DropdownIcon />
+            </View>
+          </TouchableNativeFeedback>
         </View>
-      </TouchableNativeFeedback>
-    </View>
+      )}
+    </ThemeContext.Consumer>
   );
 };
 

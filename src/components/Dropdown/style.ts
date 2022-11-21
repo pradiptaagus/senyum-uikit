@@ -52,6 +52,7 @@ export const defaultStyles = StyleSheet.create({
     fontSize: FontSize[16],
     color: Color.grey[1],
     padding: 0,
+    fontWeight: '500',
   },
   disabledInputStyle: {
     color: Color.grey[4],
@@ -61,14 +62,11 @@ export const defaultStyles = StyleSheet.create({
     color: Color.grey[5],
     position: 'absolute',
     zIndex: -1,
+    fontWeight: '500',
   },
   focusedLabelStyle: {
     top: 0,
     fontSize: FontSize[12],
-  },
-  placeholderStyle: {
-    fontSize: FontSize[16],
-    color: Color.grey[6],
   },
 });
 

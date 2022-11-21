@@ -16,6 +16,7 @@ import PINInput from './screens/PINInput';
 import Appbar from './screens/Appbar';
 import Datepicker from './screens/Datepicker';
 import Badge from './screens/Badge';
+import { Provider, DefaultTheme } from 'senyum-uikit';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -42,25 +43,27 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Button" component={Button} />
-        <Stack.Screen name="Checkbox" component={Checkbox} />
-        <Stack.Screen name="Icon" component={Icon} />
-        <Stack.Screen name="TextInput" component={TextInput} />
-        <Stack.Screen name="Dropdown" component={Dropdown} />
-        <Stack.Screen name="Radio" component={Radio} />
-        <Stack.Screen name="Dialog" component={Dialog} />
-        <Stack.Screen name="PINInput" component={PINInput} />
-        <Stack.Screen
-          name="Appbar"
-          component={Appbar}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="Datepicker" component={Datepicker} />
-        <Stack.Screen name="Badge" component={Badge} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider theme={DefaultTheme}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Button" component={Button} />
+          <Stack.Screen name="Checkbox" component={Checkbox} />
+          <Stack.Screen name="Icon" component={Icon} />
+          <Stack.Screen name="TextInput" component={TextInput} />
+          <Stack.Screen name="Dropdown" component={Dropdown} />
+          <Stack.Screen name="Radio" component={Radio} />
+          <Stack.Screen name="Dialog" component={Dialog} />
+          <Stack.Screen name="PINInput" component={PINInput} />
+          <Stack.Screen
+            name="Appbar"
+            component={Appbar}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen name="Datepicker" component={Datepicker} />
+          <Stack.Screen name="Badge" component={Badge} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }

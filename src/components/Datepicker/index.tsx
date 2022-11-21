@@ -20,6 +20,7 @@ import { FontSize } from '../../base/Font';
 import { Color } from '../../base/Color';
 import { Spacing } from '../../base/Spacing';
 import { Icon } from '../../base/Icon';
+import { ThemeContext } from '../../core/Provider';
 
 export type MonthLabel = {
   full: string;
@@ -256,25 +257,33 @@ const Datepicker = (props: DatepickerProps) => {
   }, [value, visible]);
 
   const flatlistItem = ({ item }: { item: number }) => (
-    <View style={styles.yearItem}>
-      <Pressable
-        style={[styles.yearWrapper, activeStyle]}
-        onPress={() => {
-          setCurrentYear(item);
-          setIntention('month');
-        }}
-      >
-        <Text
-          style={[
-            styles.year,
-            item === currentYear && styles.activeYear,
-            activeTextStyle,
-          ]}
-        >
-          {item}
-        </Text>
-      </Pressable>
-    </View>
+    <ThemeContext.Consumer>
+      {(ctx) => (
+        <View style={styles.yearItem}>
+          <Pressable
+            style={[styles.yearWrapper, activeStyle]}
+            onPress={() => {
+              setCurrentYear(item);
+              setIntention('month');
+            }}
+          >
+            <Text
+              style={[
+                styles.year,
+                item === currentYear && styles.activeYear,
+                {
+                  fontFamily: ctx.fonts.regular.fontFamily,
+                  fontWeight: ctx.fonts.regular.fontWeight,
+                },
+                activeTextStyle,
+              ]}
+            >
+              {item}
+            </Text>
+          </Pressable>
+        </View>
+      )}
+    </ThemeContext.Consumer>
   );
 
   const containerStyle = useMemo((): ViewStyle => {
@@ -376,264 +385,334 @@ const Datepicker = (props: DatepickerProps) => {
   }
 
   return (
-    <View style={[styles.container, containerStyle]} testID={testID}>
-      <Pressable
-        onPress={() => {
-          Animated.spring(overlayAnim, {
-            toValue: 0,
-            useNativeDriver: true,
-          }).start();
-          setTimeout(() => {
-            dismissable && onDismiss ? onDismiss() : undefined;
-          }, 200);
-        }}
-        style={styles.pressabledOverlay}
-      >
-        <Animated.View
-          style={[styles.modalOverlay, { opacity: overlayAnim }]}
-        />
-      </Pressable>
-      <View style={styles.wrapper}>
-        <Animated.View style={[styles.content, { opacity: overlayAnim }]}>
-          <View style={[styles.header, headerStyle]}>
-            <Pressable
-              onPress={() => {
-                setIntention('year');
-                setCurrentMonth(undefined);
-                setCurrentDate(undefined);
-              }}
-            >
-              <Text style={[styles.headerYearText, headerYearStyle]}>
-                {currentYear}
-              </Text>
-            </Pressable>
-            <Pressable
-              onPress={() => {
-                setIntention('month');
-                setCurrentDate(undefined);
-              }}
-            >
-              <Text style={[styles.headerDateText, headerDateStyle]}>
-                {label(false)}
-              </Text>
-            </Pressable>
-          </View>
-          {intention === 'year' && (
+    <ThemeContext.Consumer>
+      {(ctx) => (
+        <View style={[styles.container, containerStyle]} testID={testID}>
+          <Pressable
+            onPress={() => {
+              Animated.spring(overlayAnim, {
+                toValue: 0,
+                useNativeDriver: true,
+              }).start();
+              setTimeout(() => {
+                dismissable && onDismiss ? onDismiss() : undefined;
+              }, 200);
+            }}
+            style={styles.pressabledOverlay}
+          >
             <Animated.View
-              style={[
-                styles.calendarWrapper,
-                styles.yearContainer,
-                { opacity: yearAnim },
-              ]}
-            >
-              <FlatList
-                data={years}
-                renderItem={flatlistItem}
-                ref={flatlistRef}
-                onScrollToIndexFailed={(info) => {
-                  const offset = info.averageItemLength * info.index;
-                  flatlistRef.current?.scrollToOffset({ offset });
-                  setTimeout(() => {
-                    flatlistRef.current?.scrollToIndex({ index: info.index });
-                  }, 100);
-                }}
-              />
-            </Animated.View>
-          )}
-          {intention === 'month' && (
-            <Animated.View
-              style={[styles.calendarWrapper, { opacity: monthAnim }]}
-            >
-              <View style={styles.monthContainer}>
-                {monthLabels.map((month, index) => (
-                  <Pressable
-                    key={index}
-                    style={[styles.monthItem]}
-                    onPress={() => {
-                      setCurrentMonth(index);
-                      setCurrentDate(undefined);
-                      setIntention('date');
-                    }}
+              style={[styles.modalOverlay, { opacity: overlayAnim }]}
+            />
+          </Pressable>
+          <View style={styles.wrapper}>
+            <Animated.View style={[styles.content, { opacity: overlayAnim }]}>
+              <View style={[styles.header, headerStyle]}>
+                <Pressable
+                  onPress={() => {
+                    setIntention('year');
+                    setCurrentMonth(undefined);
+                    setCurrentDate(undefined);
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.headerYearText,
+                      {
+                        fontFamily: ctx.fonts.demiBold.fontFamily,
+                        fontWeight: ctx.fonts.demiBold.fontWeight,
+                      },
+                      headerYearStyle,
+                    ]}
                   >
-                    <View
-                      style={[
-                        styles.monthWrapper,
-                        isCurrentMonth(index) && styles.currentMonthWrapper,
-                        currentMonth === index && styles.activeMonthWrapper,
-                        activeStyle,
-                      ]}
-                    >
-                      <Text
-                        style={[
-                          styles.month,
-                          (isCurrentMonth(index) || currentMonth === index) &&
-                            styles.currentMonth,
-                          activeTextStyle,
-                        ]}
-                      >
-                        {month.abbr}
-                      </Text>
-                    </View>
-                  </Pressable>
-                ))}
-              </View>
-            </Animated.View>
-          )}
-          {intention === 'date' && (
-            <Animated.View
-              style={[styles.calendarWrapper, { opacity: dateAnim }]}
-            >
-              <View style={styles.nav}>
-                <Pressable style={styles.chevronContainer} onPress={handlePrev}>
-                  {prevIcon ? (
-                    prevIcon
-                  ) : (
-                    <Icon.ChevronLeft size="16" color={Color.grey[1]} />
-                  )}
+                    {currentYear}
+                  </Text>
                 </Pressable>
-                <Text style={[styles.label, labelStyle]}>{label(true)}</Text>
-                <Pressable style={styles.chevronContainer} onPress={handleNext}>
-                  {nextIcon ? (
-                    nextIcon
-                  ) : (
-                    <Icon.ChevronRight
-                      size="16"
-                      color={Color.grey[1]}
-                      style={styles.chevronContainer}
-                    />
-                  )}
+                <Pressable
+                  onPress={() => {
+                    setIntention('month');
+                    setCurrentDate(undefined);
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.headerDateText,
+                      {
+                        fontFamily: ctx.fonts.demiBold.fontFamily,
+                        fontWeight: ctx.fonts.demiBold.fontWeight,
+                      },
+                      headerDateStyle,
+                    ]}
+                  >
+                    {label(false)}
+                  </Text>
                 </Pressable>
               </View>
-              <View style={styles.dateContainer}>
-                {dayLabels.map((item, i) => (
-                  <View key={i} style={styles.dateItem}>
-                    <Text style={[styles.dayLabel, dayLabelStyle]}>
-                      {item.abbr}
-                    </Text>
-                  </View>
-                ))}
-              </View>
-              {dateList.map((row, rowIndex) => (
-                <View key={rowIndex} style={styles.dateContainer}>
-                  {row.map((col, colIndex) => (
-                    <Pressable
-                      key={colIndex}
-                      style={[styles.dateItem]}
-                      onPress={() => {
-                        if (markedDates && currentYear && currentMonth) {
-                          if (!isMarked(col)) {
-                            return;
-                          }
-                        }
-                        setCurrentDate(col);
-                        Animated.sequence([
-                          Animated.timing(activeDateAnim, {
-                            toValue: 0,
-                            useNativeDriver: true,
-                            duration: 0,
-                          }),
-                          Animated.timing(activeDateAnim, {
-                            toValue: 1,
-                            useNativeDriver: true,
-                            duration: 200,
-                          }),
-                        ]).start();
-                      }}
-                    >
-                      <View
-                        style={[
-                          styles.dateWrapper,
-                          !!currentYear &&
-                            !!currentMonth &&
-                            isToday(currentYear, currentMonth, col) &&
-                            styles.todayDateWrapper,
-                        ]}
+              {intention === 'year' && (
+                <Animated.View
+                  style={[
+                    styles.calendarWrapper,
+                    styles.yearContainer,
+                    { opacity: yearAnim },
+                  ]}
+                >
+                  <FlatList
+                    data={years}
+                    renderItem={flatlistItem}
+                    ref={flatlistRef}
+                    onScrollToIndexFailed={(info) => {
+                      const offset = info.averageItemLength * info.index;
+                      flatlistRef.current?.scrollToOffset({ offset });
+                      setTimeout(() => {
+                        flatlistRef.current?.scrollToIndex({
+                          index: info.index,
+                        });
+                      }, 100);
+                    }}
+                  />
+                </Animated.View>
+              )}
+              {intention === 'month' && (
+                <Animated.View
+                  style={[styles.calendarWrapper, { opacity: monthAnim }]}
+                >
+                  <View style={styles.monthContainer}>
+                    {monthLabels.map((month, index) => (
+                      <Pressable
+                        key={index}
+                        style={[styles.monthItem]}
+                        onPress={() => {
+                          setCurrentMonth(index);
+                          setCurrentDate(undefined);
+                          setIntention('date');
+                        }}
                       >
-                        <Animated.View
+                        <View
                           style={[
-                            styles.hightlightDateWrapper,
-                            col === currentDate && styles.activeDateWrapper,
+                            styles.monthWrapper,
+                            isCurrentMonth(index) && styles.currentMonthWrapper,
+                            currentMonth === index && styles.activeMonthWrapper,
                             activeStyle,
-                            {
-                              opacity: activeDateAnim,
-                            },
-                          ]}
-                        />
-                        <Text
-                          style={[
-                            styles.date,
-                            markedDates &&
-                              !isMarked(col) &&
-                              styles.forbiddenDate,
-                            !!currentYear &&
-                              !!currentMonth &&
-                              isToday(currentYear, currentMonth, col) &&
-                              styles.today,
-                            col === currentDate && styles.activeDate,
-                            dateStyle,
-                            activeTextStyle,
                           ]}
                         >
-                          {col}
+                          <Text
+                            style={[
+                              styles.month,
+                              (isCurrentMonth(index) ||
+                                currentMonth === index) &&
+                                styles.currentMonth,
+                              {
+                                fontFamily: ctx.fonts.regular.fontFamily,
+                                fontWeight: ctx.fonts.regular.fontWeight,
+                              },
+                              activeTextStyle,
+                            ]}
+                          >
+                            {month.abbr}
+                          </Text>
+                        </View>
+                      </Pressable>
+                    ))}
+                  </View>
+                </Animated.View>
+              )}
+              {intention === 'date' && (
+                <Animated.View
+                  style={[styles.calendarWrapper, { opacity: dateAnim }]}
+                >
+                  <View style={styles.nav}>
+                    <Pressable
+                      style={styles.chevronContainer}
+                      onPress={handlePrev}
+                    >
+                      {prevIcon ? (
+                        prevIcon
+                      ) : (
+                        <Icon.ChevronLeft size="16" color={Color.grey[1]} />
+                      )}
+                    </Pressable>
+                    <Text
+                      style={[
+                        styles.label,
+                        {
+                          fontFamily: ctx.fonts.demiBold.fontFamily,
+                          fontWeight: ctx.fonts.demiBold.fontWeight,
+                        },
+                        labelStyle,
+                      ]}
+                    >
+                      {label(true)}
+                    </Text>
+                    <Pressable
+                      style={styles.chevronContainer}
+                      onPress={handleNext}
+                    >
+                      {nextIcon ? (
+                        nextIcon
+                      ) : (
+                        <Icon.ChevronRight
+                          size="16"
+                          color={Color.grey[1]}
+                          style={styles.chevronContainer}
+                        />
+                      )}
+                    </Pressable>
+                  </View>
+                  <View style={styles.dateContainer}>
+                    {dayLabels.map((item, i) => (
+                      <View key={i} style={styles.dateItem}>
+                        <Text
+                          style={[
+                            styles.dayLabel,
+                            {
+                              fontFamily: ctx.fonts.demiBold.fontFamily,
+                              fontWeight: ctx.fonts.demiBold.fontWeight,
+                            },
+                            dayLabelStyle,
+                          ]}
+                        >
+                          {item.abbr}
                         </Text>
                       </View>
-                    </Pressable>
+                    ))}
+                  </View>
+                  {dateList.map((row, rowIndex) => (
+                    <View key={rowIndex} style={styles.dateContainer}>
+                      {row.map((col, colIndex) => (
+                        <Pressable
+                          key={colIndex}
+                          style={[styles.dateItem]}
+                          onPress={() => {
+                            if (markedDates && currentYear && currentMonth) {
+                              if (!isMarked(col)) {
+                                return;
+                              }
+                            }
+                            setCurrentDate(col);
+                            Animated.sequence([
+                              Animated.timing(activeDateAnim, {
+                                toValue: 0,
+                                useNativeDriver: true,
+                                duration: 0,
+                              }),
+                              Animated.timing(activeDateAnim, {
+                                toValue: 1,
+                                useNativeDriver: true,
+                                duration: 200,
+                              }),
+                            ]).start();
+                          }}
+                        >
+                          <View
+                            style={[
+                              styles.dateWrapper,
+                              !!currentYear &&
+                                !!currentMonth &&
+                                isToday(currentYear, currentMonth, col) &&
+                                styles.todayDateWrapper,
+                            ]}
+                          >
+                            <Animated.View
+                              style={[
+                                styles.hightlightDateWrapper,
+                                col === currentDate && styles.activeDateWrapper,
+                                activeStyle,
+                                {
+                                  opacity: activeDateAnim,
+                                },
+                              ]}
+                            />
+                            <Text
+                              style={[
+                                styles.date,
+                                markedDates &&
+                                  !isMarked(col) &&
+                                  styles.forbiddenDate,
+                                !!currentYear &&
+                                  !!currentMonth &&
+                                  isToday(currentYear, currentMonth, col) &&
+                                  styles.today,
+                                col === currentDate && styles.activeDate,
+                                {
+                                  fontFamily: ctx.fonts.regular.fontFamily,
+                                  fontWeight: ctx.fonts.regular.fontWeight,
+                                },
+                                dateStyle,
+                                activeTextStyle,
+                              ]}
+                            >
+                              {col}
+                            </Text>
+                          </View>
+                        </Pressable>
+                      ))}
+                    </View>
                   ))}
-                </View>
-              ))}
-            </Animated.View>
-          )}
-          <View style={styles.footerWrapper}>
-            <Pressable
-              style={styles.actionBtn}
-              onPress={() => {
-                Animated.spring(overlayAnim, {
-                  toValue: 0,
-                  useNativeDriver: true,
-                }).start();
+                </Animated.View>
+              )}
+              <View style={styles.footerWrapper}>
+                <Pressable
+                  style={styles.actionBtn}
+                  onPress={() => {
+                    Animated.spring(overlayAnim, {
+                      toValue: 0,
+                      useNativeDriver: true,
+                    }).start();
 
-                setTimeout(() => {
-                  handleCancel && handleCancel();
-                }, 200);
-              }}
-              hitSlop={8}
-            >
-              <Text
-                style={[styles.actionBtnText, styles.secondaryActionBtnText]}
-              >
-                {cancelButtonText}
-              </Text>
-            </Pressable>
-            <Pressable
-              style={styles.actionBtn}
-              onPress={() => {
-                Animated.spring(overlayAnim, {
-                  toValue: 0,
-                  useNativeDriver: true,
-                }).start();
-                setTimeout(() => {
-                  if (currentYear && currentMonth && currentDate) {
-                    handleConfirm && handleConfirm(date);
-                  }
-                }, 200);
-              }}
-              hitSlop={8}
-            >
-              <Text
-                style={[
-                  styles.actionBtnText,
-                  (!currentYear || !currentMonth || !currentDate) &&
-                    styles.disabledActionBtnText,
-                  confirmTextStyle,
-                ]}
-              >
-                {confirmButtonText}
-              </Text>
-            </Pressable>
+                    setTimeout(() => {
+                      handleCancel && handleCancel();
+                    }, 200);
+                  }}
+                  hitSlop={8}
+                >
+                  <Text
+                    style={[
+                      styles.actionBtnText,
+                      styles.secondaryActionBtnText,
+                      {
+                        fontFamily: ctx.fonts.bold.fontFamily,
+                        fontWeight: ctx.fonts.bold.fontWeight,
+                      },
+                    ]}
+                  >
+                    {cancelButtonText}
+                  </Text>
+                </Pressable>
+                <Pressable
+                  style={styles.actionBtn}
+                  onPress={() => {
+                    Animated.spring(overlayAnim, {
+                      toValue: 0,
+                      useNativeDriver: true,
+                    }).start();
+                    setTimeout(() => {
+                      if (currentYear && currentMonth && currentDate) {
+                        handleConfirm && handleConfirm(date);
+                      }
+                    }, 200);
+                  }}
+                  hitSlop={8}
+                >
+                  <Text
+                    style={[
+                      styles.actionBtnText,
+                      (!currentYear || !currentMonth || !currentDate) &&
+                        styles.disabledActionBtnText,
+                      {
+                        fontFamily: ctx.fonts.bold.fontFamily,
+                        fontWeight: ctx.fonts.bold.fontWeight,
+                      },
+                      confirmTextStyle,
+                    ]}
+                  >
+                    {confirmButtonText}
+                  </Text>
+                </Pressable>
+              </View>
+            </Animated.View>
           </View>
-        </Animated.View>
-      </View>
-    </View>
+        </View>
+      )}
+    </ThemeContext.Consumer>
   );
 };
 

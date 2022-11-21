@@ -21,7 +21,9 @@ const PinInput = (props: PinInputProps) => {
   const [values, setValues] = useState<string>(
     initialValue.substring(0, length)
   );
+
   const [valuesInArray, setValuesInArray] = useState<string[]>([]);
+
   const [activeIndex, setActiveIndex] = useState<number>(-1);
 
   const error = useMemo(() => {
@@ -115,9 +117,11 @@ const PinInputField = (props: PinInputFieldProps) => {
       return underlinedStyles;
     }
   }, [type]);
+
   const focused = useMemo(() => {
     return index === activeIndex;
   }, [index, activeIndex]);
+
   const mergedInputContainerStyle = useMemo(() => {
     let mergedStyles: StyleProp<ViewStyle>[] = [
       typeSpecificStyle.inputContainerStyle,
@@ -145,6 +149,7 @@ const PinInputField = (props: PinInputFieldProps) => {
     return mergedStyles;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [size, disabled, error, focused, value, type]);
+
   const mergedTextStyle = useMemo(() => {
     let textStyle: StyleProp<TextStyle>[] = [styles.textStyle];
     if (error) {
@@ -155,6 +160,7 @@ const PinInputField = (props: PinInputFieldProps) => {
     }
     return textStyle;
   }, [disabled, error]);
+
   const mergedDotStyle = useMemo(() => {
     let dotStyle: StyleProp<ViewStyle>[] = [styles.dotStyle];
     if (disabled) {
