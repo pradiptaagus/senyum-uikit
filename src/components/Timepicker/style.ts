@@ -74,6 +74,9 @@ const styles = StyleSheet.create({
   selectedHourTextContainer: {
     backgroundColor: Color.blue[1],
   },
+  hourSelection: {
+    position: 'absolute',
+  },
   clockWise: {
     position: 'absolute',
     top: 5,
@@ -117,6 +120,21 @@ const styles = StyleSheet.create({
   pmHourText: {
     color: Color.grey[6],
     fontSize: FontSize[12],
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginBottom: Spacing[12],
+    marginRight: Spacing[6],
+  },
+  button: {
+    paddingVertical: Spacing[8],
+    paddingHorizontal: Spacing[28],
+    marginRight: Spacing[8],
+  },
+  buttonText: {
+    color: Color.orange[1],
   },
 });
 

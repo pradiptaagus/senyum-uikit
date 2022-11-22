@@ -1,30 +1,52 @@
 import React, {
+  forwardRef,
   useCallback,
   useEffect,
+  useImperativeHandle,
   useMemo,
   useRef,
   useState,
 } from 'react';
-import { Modal, View, Text, Pressable, Animated } from 'react-native';
+import {
+  Modal,
+  View,
+  Text,
+  Pressable,
+  Animated,
+  ViewStyle,
+  StyleProp,
+} from 'react-native';
 import styles from './style';
-import { Hour, Minute } from './type';
+import { Hour, Minute, TimepickerRef } from './type';
 import type {
   HourClockWiseProps,
   MinuteClockWiseProps,
   HourOptionProps,
-  // TimepickerProps,
+  TimepickerProps,
   HourSelectionProps,
   MinuteOptionProps,
   MinuteSelectionProps,
 } from './type';
 
-const Timepicker = () => {
-  const [selectedHour, setSelectedHour] = useState<keyof typeof Hour>(13);
-  const [selectedMinute, setSelectedMinute] = useState<keyof typeof Minute>(5);
+const Timepicker = forwardRef<TimepickerRef, TimepickerProps>((props, ref) => {
+  const { color, animationType = 'fade', onTimeSet } = props;
+
+  const [selectedHour, setSelectedHour] = useState<keyof typeof Hour>(12);
+  const [selectedMinute, setSelectedMinute] = useState<keyof typeof Minute>(0);
   const [selectionMode, setSelectionMode] = useState<'hour' | 'minute'>('hour');
   const [showHourSelection, setShowHourSelection] = useState<boolean>(true);
+  const [visible, setVisible] = useState<boolean>(false);
 
   const selectionModeAnimationValue = useRef(new Animated.Value(0)).current;
+
+  const additionalBackgroundStyle = useMemo(():
+    | StyleProp<ViewStyle>
+    | undefined => {
+    if (color) {
+      return { backgroundColor: color };
+    }
+    return undefined;
+  }, [color]);
 
   const turnToHourSelectionMode = useCallback(() => {
     setSelectionMode('hour');
@@ -47,11 +69,42 @@ const Timepicker = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const closeModal = useCallback(() => {
+    setVisible(false);
+    reset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const setTimeAndCloseModal = useCallback(() => {
+    onTimeSet({ hour: selectedHour, minute: selectedMinute });
+    closeModal();
+  }, [closeModal, onTimeSet, selectedHour, selectedMinute]);
+
+  const reset = useCallback(() => {
+    setSelectedHour(12);
+    setSelectedMinute(0);
+  }, []);
+
+  useImperativeHandle(ref, () => ({
+    show: (active) => {
+      setVisible(true);
+      if (active) {
+        setSelectedHour(active.hour);
+        setSelectedMinute(active.minute);
+      }
+    },
+  }));
+
   return (
-    <Modal visible={true} transparent>
+    <Modal
+      visible={visible}
+      transparent
+      onRequestClose={closeModal}
+      animationType={animationType}
+    >
       <View style={styles.modal}>
         <View style={styles.container}>
-          <View style={styles.header}>
+          <View style={[styles.header, additionalBackgroundStyle]}>
             <View style={styles.headerTextContainer}>
               <Text
                 style={[
@@ -90,48 +143,59 @@ const Timepicker = () => {
               }}
             >
               <MinuteSelection
+                color={color}
                 selectedMinute={selectedMinute}
                 setSelectedMinute={setSelectedMinute}
               />
             </Animated.View>
             {showHourSelection && (
               <Animated.View
-                style={{
-                  position: 'absolute',
-                  transform: [
-                    {
-                      scale: selectionModeAnimationValue.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [1, 1.3],
-                      }),
-                    },
-                  ],
-                  opacity: selectionModeAnimationValue.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [1, 0],
-                  }),
-                }}
+                style={[
+                  styles.hourSelection,
+                  {
+                    transform: [
+                      {
+                        scale: selectionModeAnimationValue.interpolate({
+                          inputRange: [0, 1],
+                          outputRange: [1, 1.3],
+                        }),
+                      },
+                    ],
+                    opacity: selectionModeAnimationValue.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [1, 0],
+                    }),
+                  },
+                ]}
               >
                 <HourSelection
+                  color={color}
                   selectedHour={selectedHour}
                   setSelectedHour={setSelectedHour}
                 />
               </Animated.View>
             )}
           </View>
-          <View></View>
+          <View style={styles.buttonsContainer}>
+            <Pressable style={styles.button} onPress={closeModal}>
+              <Text style={styles.buttonText}>Batal</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={setTimeAndCloseModal}>
+              <Text style={styles.buttonText}>Set</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </Modal>
   );
-};
+});
 
 const HourSelection = (props: HourSelectionProps) => {
-  const { selectedHour, setSelectedHour } = props;
+  const { color, selectedHour, setSelectedHour } = props;
   return (
     <View style={styles.clock}>
       <View style={styles.outerHoursContainer}>
-        <HourClockWise selectedHour={selectedHour} />
+        <HourClockWise color={color} selectedHour={selectedHour} />
         <HourOption
           hour={1}
           selectedHour={selectedHour}
@@ -323,11 +387,11 @@ const HourOption = (props: HourOptionProps) => {
 };
 
 const MinuteSelection = (props: MinuteSelectionProps) => {
-  const { selectedMinute, setSelectedMinute } = props;
+  const { color, selectedMinute, setSelectedMinute } = props;
   return (
     <View style={styles.clock}>
       <View style={styles.outerHoursContainer}>
-        <MinuteClockWise selectedMinute={selectedMinute} />
+        <MinuteClockWise selectedMinute={selectedMinute} color={color} />
         <MinuteOption
           minute={0}
           selectedMinute={selectedMinute}
@@ -441,10 +505,19 @@ const MinuteOption = (props: MinuteOptionProps) => {
 };
 
 const HourClockWise = (props: HourClockWiseProps) => {
-  const { selectedHour } = props;
+  const { color, selectedHour } = props;
 
   const degreeAnimationValue = useRef(new Animated.Value(0)).current;
   const topMarginAnimationValue = useRef(new Animated.Value(0)).current;
+
+  const additionalBackgroundStyle = useMemo(():
+    | StyleProp<ViewStyle>
+    | undefined => {
+    if (color) {
+      return { backgroundColor: color };
+    }
+    return undefined;
+  }, [color]);
 
   useEffect(() => {
     const degree = (selectedHour % 12) * 30;
@@ -489,23 +562,37 @@ const HourClockWise = (props: HourClockWiseProps) => {
         <Animated.View
           style={[
             styles.clockWiseHeadDot,
+            additionalBackgroundStyle,
             { transform: [{ translateY: topMarginAnimationValue }] },
           ]}
         />
         <Animated.View
-          style={[styles.clockWiseRule, { marginTop: topMarginAnimationValue }]}
+          style={[
+            styles.clockWiseRule,
+            additionalBackgroundStyle,
+            { marginTop: topMarginAnimationValue },
+          ]}
         />
-        <View style={styles.clockWiseDot} />
+        <View style={[styles.clockWiseDot, additionalBackgroundStyle]} />
       </View>
     </Animated.View>
   );
 };
 
 const MinuteClockWise = (props: MinuteClockWiseProps) => {
-  const { selectedMinute } = props;
+  const { color, selectedMinute } = props;
 
   const degreeAnimationValue = useRef(new Animated.Value(0)).current;
   const topMarginAnimationValue = useRef(new Animated.Value(0)).current;
+
+  const additionalBackgroundStyle = useMemo(():
+    | StyleProp<ViewStyle>
+    | undefined => {
+    if (color) {
+      return { backgroundColor: color };
+    }
+    return undefined;
+  }, [color]);
 
   useEffect(() => {
     const degree = (selectedMinute / 5) * 30;
@@ -537,11 +624,16 @@ const MinuteClockWise = (props: MinuteClockWiseProps) => {
         <Animated.View
           style={[
             styles.clockWiseHeadDot,
+            additionalBackgroundStyle,
             { transform: [{ translateY: topMarginAnimationValue }] },
           ]}
         />
         <Animated.View
-          style={[styles.clockWiseRule, { marginTop: topMarginAnimationValue }]}
+          style={[
+            styles.clockWiseRule,
+            additionalBackgroundStyle,
+            { marginTop: topMarginAnimationValue },
+          ]}
         />
         <View style={styles.clockWiseDot} />
       </View>

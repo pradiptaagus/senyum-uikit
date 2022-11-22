@@ -1,5 +1,19 @@
+import type { ModalBaseProps } from 'react-native';
+
 export type TimepickerProps = {
   color?: string;
+  animationType?: ModalBaseProps['animationType'];
+  onTimeSet: (result: {
+    hour: keyof typeof Hour;
+    minute: keyof typeof Minute;
+  }) => void;
+};
+
+export type TimepickerRef = {
+  show: (params?: {
+    hour: keyof typeof Hour;
+    minute: keyof typeof Minute;
+  }) => void;
 };
 
 export const Hour = {
@@ -30,6 +44,7 @@ export const Hour = {
 };
 
 export interface HourSelectionProps {
+  color?: string;
   selectedHour: keyof typeof Hour;
   setSelectedHour: (selectedHour: keyof typeof Hour) => void;
 }
@@ -42,10 +57,12 @@ export interface HourOptionProps {
 }
 
 export interface HourClockWiseProps {
+  color?: string;
   selectedHour: keyof typeof Hour;
 }
 
 export interface MinuteClockWiseProps {
+  color?: string;
   selectedMinute: keyof typeof Minute;
 }
 
@@ -71,6 +88,7 @@ export interface MinuteOptionProps {
 }
 
 export interface MinuteSelectionProps {
+  color?: string;
   selectedMinute: keyof typeof Minute;
   setSelectedMinute: (selectedMinute: keyof typeof Minute) => void;
 }
