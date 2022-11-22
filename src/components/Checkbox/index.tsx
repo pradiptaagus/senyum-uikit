@@ -11,6 +11,7 @@ import {
 import { Color } from '../../base/Color';
 import { Spacing } from '../../base/Spacing';
 import { FontSize } from '../../base/Font';
+import { ThemeContext } from '../../core/Provider';
 
 type CheckboxStatus = 'checked' | 'unchecked' | 'indeterminate';
 
@@ -124,25 +125,39 @@ const Checkbox = (props: CheckboxProps) => {
   }, [disabled, bordered, checkColor]);
 
   return (
-    <View style={[styles.container, style]}>
-      {position === 'trailing' && label && (
-        <Text style={[styles.label, styles.trailingLabel, labelStyle]}>
-          {label}
-        </Text>
+    <ThemeContext.Consumer>
+      {(ctx) => (
+        <View style={[styles.container, style]}>
+          {position === 'trailing' && label && (
+            <Text style={[styles.label, styles.trailingLabel, labelStyle]}>
+              {label}
+            </Text>
+          )}
+          <Pressable
+            style={checkboxStyle}
+            onPress={!disabled ? onPress : undefined}
+            testID={testID}
+          >
+            {status === 'checked' && <View style={checkStyle} />}
+          </Pressable>
+          {(!position || position === 'leading') && label && (
+            <Text
+              style={[
+                styles.label,
+                styles.leadingLabel,
+                {
+                  fontFamily: ctx.fonts.medium.fontFamily,
+                  fontWeight: ctx.fonts.medium.fontWeight,
+                },
+                labelStyle,
+              ]}
+            >
+              {label}
+            </Text>
+          )}
+        </View>
       )}
-      <Pressable
-        style={checkboxStyle}
-        onPress={!disabled ? onPress : undefined}
-        testID={testID}
-      >
-        {status === 'checked' && <View style={checkStyle} />}
-      </Pressable>
-      {(!position || position === 'leading') && label && (
-        <Text style={[styles.label, styles.leadingLabel, labelStyle]}>
-          {label}
-        </Text>
-      )}
-    </View>
+    </ThemeContext.Consumer>
   );
 };
 

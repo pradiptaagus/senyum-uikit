@@ -18,7 +18,7 @@ export const defaultLargeStyles = StyleSheet.create({
     borderRadius: 10,
     borderColor: Color.grey[6],
     paddingHorizontal: Spacing[16],
-    paddingVertical: Spacing[20],
+    paddingVertical: Spacing[8],
     flexDirection: 'row',
   },
   disabledInputContainerStyle: {
@@ -56,14 +56,9 @@ export const defaultLargeStyles = StyleSheet.create({
     color: Color.grey[4],
   },
   labelStyle: {
-    fontSize: FontSize[16],
-    color: Color.grey[5],
-    position: 'absolute',
-    zIndex: -1,
-  },
-  focusedLabelStyle: {
-    top: 0,
     fontSize: FontSize[12],
+    color: Color.grey[5],
+    alignSelf: 'flex-start',
   },
   placeholderStyle: {
     fontSize: FontSize[16],

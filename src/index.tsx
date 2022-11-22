@@ -1,3 +1,4 @@
+export { default as Provider, DefaultTheme } from './core/Provider';
 export * from './base/Color';
 export * from './base/Font';
 export * from './base/Icon';

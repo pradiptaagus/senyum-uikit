@@ -8,24 +8,24 @@ export default function BadgeExample() {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.wrapper}>
-          <Badge
-            type="success"
-            text="Status"
-            style={[styles.badge, styles.smallBadge]}
-          />
-          <Badge
-            type="warning"
-            text="Status"
-            style={[styles.badge, styles.smallBadge]}
-          />
-          <Badge
-            type="error"
-            text="Status"
-            style={[styles.badge, styles.smallBadge]}
-          />
-          <Badge type="success" text="Status" style={[styles.badge]} />
-          <Badge type="warning" text="Status" style={[styles.badge]} />
-          <Badge type="error" text="Status" style={[styles.badge]} />
+          <Badge variant="success" style={[styles.badge, styles.smallBadge]}>
+            Status
+          </Badge>
+          <Badge variant="warning" style={[styles.badge, styles.smallBadge]}>
+            Status
+          </Badge>
+          <Badge variant="error" style={[styles.badge, styles.smallBadge]}>
+            Status
+          </Badge>
+          <Badge variant="success" style={[styles.badge]}>
+            Status
+          </Badge>
+          <Badge variant="warning" style={[styles.badge]}>
+            Status
+          </Badge>
+          <Badge variant="error" style={[styles.badge]}>
+            Status
+          </Badge>
         </View>
       </ScrollView>
     </SafeAreaView>

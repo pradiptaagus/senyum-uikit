@@ -11,6 +11,7 @@ import {
 import { FontSize } from '../../base/Font';
 import { Color } from '../../base/Color';
 import { Spacing } from '../../base/Spacing';
+import { ThemeContext } from '../../core/Provider';
 
 type RadioStatus = 'checked' | 'unchecked' | 'indeterminate';
 
@@ -93,23 +94,47 @@ const Radio = (props: RadioProps) => {
   ]);
 
   return (
-    <View style={[styles.container, style]}>
-      {position === 'trailing' && label && (
-        <Text style={[styles.label, styles.trailingLabel, labelStyle]}>
-          {label}
-        </Text>
+    <ThemeContext.Consumer>
+      {(ctx) => (
+        <View style={[styles.container, style]}>
+          {position === 'trailing' && label && (
+            <Text
+              style={[
+                styles.label,
+                styles.trailingLabel,
+                {
+                  fontFamily: ctx.fonts.regular.fontFamily,
+                  fontWeight: ctx.fonts.regular.fontWeight,
+                },
+                labelStyle,
+              ]}
+            >
+              {label}
+            </Text>
+          )}
+          <Pressable
+            style={radioStyle}
+            onPress={!disabled ? onPress : undefined}
+            testID={testID}
+          />
+          {(!position || position === 'leading') && label && (
+            <Text
+              style={[
+                styles.label,
+                styles.leadingLabel,
+                {
+                  fontFamily: ctx.fonts.regular.fontFamily,
+                  fontWeight: ctx.fonts.regular.fontWeight,
+                },
+                labelStyle,
+              ]}
+            >
+              {label}
+            </Text>
+          )}
+        </View>
       )}
-      <Pressable
-        style={radioStyle}
-        onPress={!disabled ? onPress : undefined}
-        testID={testID}
-      />
-      {(!position || position === 'leading') && label && (
-        <Text style={[styles.label, styles.leadingLabel, labelStyle]}>
-          {label}
-        </Text>
-      )}
-    </View>
+    </ThemeContext.Consumer>
   );
 };
 

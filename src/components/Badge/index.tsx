@@ -3,12 +3,14 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Color } from '../../base/Color';
 import { Spacing } from '../../base/Spacing';
 import type { BadgeProps } from './type';
+import { ThemeContext } from '../../core/Provider';
 
 const styles = StyleSheet.create({
   default: {
     alignItems: 'center',
     minWidth: Spacing['72'],
     borderRadius: Spacing['6'],
+    paddingHorizontal: Spacing['10'],
   },
   text: {
     color: Color.light['1'],
@@ -22,15 +24,15 @@ const styles = StyleSheet.create({
 const Badge = (props: BadgeProps) => {
   const {
     visible = true,
-    text,
-    type,
+    children,
+    variant,
     numberOfLines = 1,
     style,
     testID,
   } = props;
 
   const bgColor = useMemo(() => {
-    switch (type) {
+    switch (variant) {
       case 'error':
         return Color.red[1];
       case 'warning':
@@ -40,7 +42,7 @@ const Badge = (props: BadgeProps) => {
       default:
         return Color.green[1];
     }
-  }, [type]);
+  }, [variant]);
 
   const composedTestIDs = useMemo(() => {
     if (testID) {
@@ -57,18 +59,28 @@ const Badge = (props: BadgeProps) => {
   }
 
   return (
-    <View
-      testID={composedTestIDs?.container}
-      style={[styles.default, { backgroundColor: bgColor }, style]}
-    >
-      <Text
-        testID={composedTestIDs?.text}
-        numberOfLines={numberOfLines}
-        style={styles.text}
-      >
-        {text}
-      </Text>
-    </View>
+    <ThemeContext.Consumer>
+      {(ctx) => (
+        <View
+          testID={composedTestIDs?.container}
+          style={[styles.default, { backgroundColor: bgColor }, style]}
+        >
+          <Text
+            testID={composedTestIDs?.text}
+            numberOfLines={numberOfLines}
+            style={[
+              styles.text,
+              {
+                fontFamily: ctx.fonts.demiBold.fontFamily,
+                fontWeight: ctx.fonts.demiBold.fontWeight,
+              },
+            ]}
+          >
+            {children}
+          </Text>
+        </View>
+      )}
+    </ThemeContext.Consumer>
   );
 };
 
