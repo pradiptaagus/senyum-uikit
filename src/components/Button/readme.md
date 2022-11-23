@@ -34,7 +34,7 @@ Button is a component pressed to invoke actions.
 
 ## Additional Info
 
-### ButtonSize = 'small' | 'medium' | 'large'
+### ButtonSize = 'sm' | 'md' | 'lg'
 
 ### ButtonVariant = 'primary' | 'secondary'
 
