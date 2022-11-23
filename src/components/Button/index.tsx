@@ -14,7 +14,7 @@ import { Icon } from '../../base/Icon';
 import { Spacing } from '../../base/Spacing';
 import { ThemeContext } from '../../core/Provider';
 
-type ButtonSize = 'small' | 'medium' | 'large';
+type ButtonSize = 'sm' | 'md' | 'lg';
 
 type ButtonVariant = 'primary' | 'secondary';
 
@@ -51,7 +51,7 @@ const Button = (props: ButtonProps) => {
   const [isPressIn, setIsPressIn] = useState<boolean>(false);
 
   const {
-    size = 'medium',
+    size = 'md',
     children,
     disabled,
     bordered,
@@ -73,18 +73,18 @@ const Button = (props: ButtonProps) => {
   } = props;
 
   const buttonSize = useMemo(() => {
-    if (size === 'small') {
+    if (size === 'sm') {
       return styles.smallButton;
-    } else if (size === 'large') {
+    } else if (size === 'lg') {
       return styles.largeButton;
     }
     return styles.mediumButton;
   }, [size]);
 
   const buttonTextSize = useMemo(() => {
-    if (size === 'small') {
+    if (size === 'sm') {
       return styles.smallButtonText;
-    } else if (size === 'large') {
+    } else if (size === 'lg') {
       return styles.largeButtonText;
     }
     return styles.mediumButtonText;
@@ -271,9 +271,9 @@ const ButtonIcon = ({
     let iconSize = '0';
     let iconColor = Color.light[1];
 
-    if (size === 'small') {
+    if (size === 'sm') {
       iconSize = '16';
-    } else if (size === 'large') {
+    } else if (size === 'lg') {
       iconSize = '20';
     } else {
       iconSize = '18';
