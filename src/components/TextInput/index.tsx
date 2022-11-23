@@ -20,12 +20,12 @@ import { Spacing } from '../../base/Spacing';
 import { Shadow } from '../../base/Shadow';
 
 const TextInput = (props: TextInputProps) => {
-  const { size = 'medium', ...otherProps } = props;
+  const { size = 'md', ...otherProps } = props;
 
   return (
     <View style={Shadow[1]}>
-      {size === 'medium' && <MediumTextInput {...otherProps} />}
-      {size !== 'medium' && <SmallTextInput {...otherProps} />}
+      {size === 'md' && <MediumTextInput {...otherProps} />}
+      {size !== 'md' && <SmallTextInput {...otherProps} />}
     </View>
   );
 };

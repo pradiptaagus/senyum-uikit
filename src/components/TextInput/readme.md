@@ -6,7 +6,7 @@ A component to allow users to input text.
 
 | Props                       | Type                                                         | Optional | Default Value | Description                      |
 | --------------------------- | ------------------------------------------------------------ | -------- | ------------- | -------------------------------- |
-| size                        | 'small' or 'medium'                                          | Yes      | medium        | The text input size              |
+| size                        | 'sm' or 'md'                                                 | Yes      | medium        | The text input size              |
 | containerStyle              | StyleProp<ViewStyle>                                         | Yes      | undefined     | The custom container style       |
 | disabled                    | boolean                                                      | Yes      | false         | Define disable status            |
 | status                      | [TextInputStatus](#textinputstatus--success--warning--error) | Yes      | undefined     | Define the `TextInput` status    |
