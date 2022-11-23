@@ -26,6 +26,7 @@ const data = [
   'Appbar',
   'Datepicker',
   'Badge',
+  'Timepicker',
 ];
 
 const Item = ({ title, onPress }: ItemProps) => (

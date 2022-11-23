@@ -16,6 +16,7 @@ import PINInput from './screens/PINInput';
 import Appbar from './screens/Appbar';
 import Datepicker from './screens/Datepicker';
 import Badge from './screens/Badge';
+import Timepicker from './screens/Timepicker';
 import { Provider, DefaultTheme } from 'senyum-uikit';
 
 export type RootStackParamList = {
@@ -31,6 +32,7 @@ export type RootStackParamList = {
   Appbar: undefined;
   Datepicker: undefined;
   Badge: undefined;
+  Timepicker: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
@@ -62,6 +64,7 @@ export default function App() {
           />
           <Stack.Screen name="Datepicker" component={Datepicker} />
           <Stack.Screen name="Badge" component={Badge} />
+          <Stack.Screen name="Timepicker" component={Timepicker} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
