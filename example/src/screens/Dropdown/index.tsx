@@ -10,9 +10,9 @@ export default function DropdownExample() {
         <View style={styles.wrapper}>
           <Dropdown label="Label" />
           <Dropdown label="Label" value="Placeholder" />
-          <Dropdown label="Label" value="Placeholder" borderType="error" />
-          <Dropdown label="Label" value="Placeholder" borderType="success" />
-          <Dropdown label="Label" value="Placeholder" borderType="warning" />
+          <Dropdown label="Label" value="Placeholder" status="error" />
+          <Dropdown label="Label" value="Placeholder" status="success" />
+          <Dropdown label="Label" value="Placeholder" status="warning" />
           <Dropdown disabled label="Label" />
           <Dropdown disabled label="Label" value="Placeholder" />
         </View>

@@ -9,7 +9,7 @@ const AppbarExample = (props: AppbarScreenProps) => {
       <Appbar variant="primary">
         <Appbar.BackAction onPress={() => props.navigation.goBack()} />
         <Appbar.Content title="Title" />
-        <Appbar.Action icon={'Setting'} />
+        <Appbar.Action icon={'Setting'} onPress={() => {}} />
       </Appbar>
     </SafeAreaView>
   );

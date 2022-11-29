@@ -25,6 +25,7 @@ const data = [
   'PINInput',
   'Appbar',
   'Datepicker',
+  'Badge',
 ];
 
 const Item = ({ title, onPress }: ItemProps) => (

@@ -12,8 +12,9 @@ import { Color } from '../../base/Color';
 import { Shadow } from '../../base/Shadow';
 import { Icon } from '../../base/Icon';
 import { Spacing } from '../../base/Spacing';
+import { ThemeContext } from '../../core/Provider';
 
-type ButtonSize = 'small' | 'medium' | 'large';
+type ButtonSize = 'sm' | 'md' | 'lg';
 
 type ButtonVariant = 'primary' | 'secondary';
 
@@ -30,7 +31,7 @@ type ButtonProps = {
   activeTextColor?: string;
   variant?: ButtonVariant;
   style?: StyleProp<ViewStyle>;
-  labelStyle?: StyleProp<TextStyle>;
+  textStyle?: StyleProp<TextStyle>;
   accessibilityLabel?: string;
   accessibilityHint?: string;
   testID?: string;
@@ -50,7 +51,7 @@ const Button = (props: ButtonProps) => {
   const [isPressIn, setIsPressIn] = useState<boolean>(false);
 
   const {
-    size,
+    size = 'md',
     children,
     disabled,
     bordered,
@@ -60,7 +61,7 @@ const Button = (props: ButtonProps) => {
     activeTextColor,
     variant,
     style,
-    labelStyle,
+    textStyle,
     accessibilityLabel,
     accessibilityHint,
     testID,
@@ -72,18 +73,18 @@ const Button = (props: ButtonProps) => {
   } = props;
 
   const buttonSize = useMemo(() => {
-    if (size === 'small') {
+    if (size === 'sm') {
       return styles.smallButton;
-    } else if (size === 'large') {
+    } else if (size === 'lg') {
       return styles.largeButton;
     }
     return styles.mediumButton;
   }, [size]);
 
   const buttonTextSize = useMemo(() => {
-    if (size === 'small') {
+    if (size === 'sm') {
       return styles.smallButtonText;
-    } else if (size === 'large') {
+    } else if (size === 'lg') {
       return styles.largeButtonText;
     }
     return styles.mediumButtonText;
@@ -180,53 +181,66 @@ const Button = (props: ButtonProps) => {
   }, [activeTextColor, bordered, disabled, textColor, variant, isPressIn]);
 
   return (
-    <Pressable
-      onPress={onPress}
-      onPressIn={() => {
-        setIsPressIn(true);
-        onPressIn && onPressIn();
-      }}
-      onPressOut={() => {
-        setIsPressIn(false);
-        onPressOut && onPressOut();
-      }}
-      style={[styles.button, button, buttonSize, Shadow[3], style]}
-      accessibilityLabel={accessibilityLabel}
-      accessibilityHint={accessibilityHint}
-      testID={testID}
-    >
-      {(!iconPosition || iconPosition === 'left') && (
-        <ButtonIcon
-          icon={icon}
-          size={size}
-          isPressIn={isPressIn}
-          textColor={textColor}
-          activeTextColor={activeTextColor}
-          variant={variant}
-          bordered={bordered}
-          disabled={disabled}
-          iconPosition={iconPosition}
-        />
+    <ThemeContext.Consumer>
+      {(ctx) => (
+        <Pressable
+          onPress={onPress}
+          onPressIn={() => {
+            setIsPressIn(true);
+            onPressIn && onPressIn();
+          }}
+          onPressOut={() => {
+            setIsPressIn(false);
+            onPressOut && onPressOut();
+          }}
+          style={[styles.button, button, buttonSize, Shadow[1], style]}
+          accessibilityLabel={accessibilityLabel}
+          accessibilityHint={accessibilityHint}
+          testID={testID}
+        >
+          {(!iconPosition || iconPosition === 'left') && (
+            <ButtonIcon
+              icon={icon}
+              size={size}
+              isPressIn={isPressIn}
+              textColor={textColor}
+              activeTextColor={activeTextColor}
+              variant={variant}
+              bordered={bordered}
+              disabled={disabled}
+              iconPosition={iconPosition}
+            />
+          )}
+          <Text
+            style={[
+              styles.buttonText,
+              buttonTextSize,
+              buttonTextColor,
+              {
+                fontFamily: ctx.fonts.bold.fontFamily,
+                fontWeight: ctx.fonts.bold.fontWeight,
+              },
+              textStyle,
+            ]}
+          >
+            {children}
+          </Text>
+          {iconPosition === 'right' && (
+            <ButtonIcon
+              icon={icon}
+              size={size}
+              isPressIn={isPressIn}
+              textColor={textColor}
+              activeTextColor={activeTextColor}
+              variant={variant}
+              bordered={bordered}
+              disabled={disabled}
+              iconPosition={iconPosition}
+            />
+          )}
+        </Pressable>
       )}
-      <Text
-        style={[styles.buttonText, buttonTextSize, buttonTextColor, labelStyle]}
-      >
-        {children}
-      </Text>
-      {iconPosition === 'right' && (
-        <ButtonIcon
-          icon={icon}
-          size={size}
-          isPressIn={isPressIn}
-          textColor={textColor}
-          activeTextColor={activeTextColor}
-          variant={variant}
-          bordered={bordered}
-          disabled={disabled}
-          iconPosition={iconPosition}
-        />
-      )}
-    </Pressable>
+    </ThemeContext.Consumer>
   );
 };
 
@@ -257,9 +271,9 @@ const ButtonIcon = ({
     let iconSize = '0';
     let iconColor = Color.light[1];
 
-    if (size === 'small') {
+    if (size === 'sm') {
       iconSize = '16';
-    } else if (size === 'large') {
+    } else if (size === 'lg') {
       iconSize = '20';
     } else {
       iconSize = '18';

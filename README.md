@@ -1,5 +1,7 @@
 # senyum-uikit
+
 Senyum UI Kit
+
 ## Installation
 
 ```sh
@@ -8,13 +10,23 @@ npm install senyum-uikit
 
 ## Usage
 
-```js
-import { multiply } from "senyum-uikit";
+Wrap you root project with `senyum-uikit` Provider.
 
-// ...
+```ts
+import { Provider, DefaultTheme } from 'senyum-uikit';
 
-const result = await multiply(3, 7);
+export default App() {
+    <Provider theme={DefaultTheme}>
+        // Your code
+    </Provider>
+}
 ```
+
+```ts
+import { Button } from 'senyum-uikit';
+```
+
+More about each component please read on `src/components` and click desired component.
 
 ## Contributing
 

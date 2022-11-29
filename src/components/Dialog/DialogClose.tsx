@@ -4,7 +4,7 @@ import { Color } from '../../base/Color';
 import { Icon } from '../../base/Icon';
 
 type DialogCloseProps = {
-  onPress?: () => void;
+  onPress: () => void;
 };
 
 /**

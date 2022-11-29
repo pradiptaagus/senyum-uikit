@@ -1,17 +1,16 @@
-import type { StyleProp, TextProps, TextStyle, ViewStyle } from 'react-native';
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
-export type BorderType = 'success' | 'warning' | 'error';
+export type DropdownStatus = 'success' | 'warning' | 'error';
 
 export type DropdownProps = {
   value?: string;
   containerStyle?: StyleProp<ViewStyle>;
   disabled?: boolean;
-  borderType?: BorderType;
+  status?: DropdownStatus;
   inputContainerStyle?: StyleProp<ViewStyle>;
-  disabledInputContainerStyle?: StyleProp<TextStyle>;
-  inputStyle?: StyleProp<TextStyle>;
+  disabledInputContainerStyle?: StyleProp<ViewStyle>;
+  inputStyle?: StyleProp<ViewStyle>;
   label: string;
-  labelProps?: TextProps;
   labelStyle?: StyleProp<TextStyle>;
   testID?: string;
   onPress?: () => void;

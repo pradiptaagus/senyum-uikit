@@ -10,6 +10,7 @@ import {
 import { AppbarContext } from '.';
 import { Color } from '../../base/Color';
 import { FontSize } from '../../base/Font';
+import { ThemeContext } from '../../core/Provider';
 
 type AppbarContentProps = {
   title: string;
@@ -29,18 +30,26 @@ const AppbarContent = (props: AppbarContentProps) => {
   const variant = useContext(AppbarContext);
 
   return (
-    <View style={[styles.container, style]}>
-      <Text
-        style={[
-          styles.title,
-          variant === 'primary' && styles.primaryAppbarContentTitle,
-          titleStyle,
-        ]}
-        testID={testID}
-      >
-        {title}
-      </Text>
-    </View>
+    <ThemeContext.Consumer>
+      {(ctx) => (
+        <View style={[styles.container, style]}>
+          <Text
+            style={[
+              styles.title,
+              variant === 'primary' && styles.primaryAppbarContentTitle,
+              {
+                fontFamily: ctx.fonts.demiBold.fontFamily,
+                fontWeight: ctx.fonts.demiBold.fontWeight,
+              },
+              titleStyle,
+            ]}
+            testID={testID}
+          >
+            {title}
+          </Text>
+        </View>
+      )}
+    </ThemeContext.Consumer>
   );
 };
 
