@@ -6,6 +6,7 @@ import {
   TextInput as RNTextInput,
   View,
   ViewStyle,
+  Text,
 } from 'react-native';
 import type { TextInputProps } from './type';
 import type { TextInputIconProps } from './type';
@@ -171,9 +172,11 @@ const MediumTextInput = (props: TextInputProps) => {
 
   const [focused, setFocused] = useState<boolean>(false);
   const [value, setValue] = useState<string | undefined>(defaultValue);
-  const [innerContainerHeight, setInnerContainerHeight] = useState<number>(0);
-  const [labelHeight, setLabelHeight] = useState<number>(0);
-  const [labelWidth, setLabelWidth] = useState<number>(0);
+  const [targetY, setTargetY] = useState<number>(0);
+  const [targetHeight, setTargetHeight] = useState<number>(0);
+  const [currentHeight, setCurrentHeight] = useState<number>(0);
+  const [currentWidth, setCurrentWidth] = useState<number>(0);
+  const [currentY, setCurrentY] = useState<number>(0);
 
   const mergedInputContainerStyle = useMemo(() => {
     let style: StyleProp<ViewStyle>[] = [
@@ -231,6 +234,7 @@ const MediumTextInput = (props: TextInputProps) => {
         inputContainer: `${testID}-inputcontainer`,
         innerContainer: `${testID}-innercontainer`,
         textInput: `${testID}-textinput`,
+        animatingLabelContainer: `${testID}-animatinglabelcontainer`,
         label: `${testID}-label`,
         value: `${testID}-value`,
       };
@@ -239,7 +243,7 @@ const MediumTextInput = (props: TextInputProps) => {
   }, [testID]);
 
   useEffect(() => {
-    if (focused) {
+    if (focused || value) {
       Animated.timing(labelAnimatedValue, {
         toValue: 1,
         duration: 100,
@@ -253,7 +257,7 @@ const MediumTextInput = (props: TextInputProps) => {
       }).start();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [focused]);
+  }, [focused, value]);
 
   return (
     <Pressable
@@ -268,42 +272,43 @@ const MediumTextInput = (props: TextInputProps) => {
         <View
           testID={composedTestIDs?.innerContainer}
           style={mergedInnerContainerStyle}
-          onLayout={({ nativeEvent }) => {
-            const {
-              layout: { height },
-            } = nativeEvent;
-            setInnerContainerHeight(height);
-          }}
         >
-          {label && (
+          <View
+            testID={composedTestIDs?.animatingLabelContainer}
+            style={defaultLargeStyles.animatingLabelContainer}
+          >
             <Animated.Text
               testID={composedTestIDs?.label}
               style={[
-                defaultLargeStyles.labelStyle,
+                defaultLargeStyles.zoomedLabelStyle,
                 labelStyle,
                 {
                   transform: [
                     {
                       scale: labelAnimatedValue.interpolate({
                         inputRange: [0, 1],
-                        outputRange: [1.3, 1],
+                        outputRange: [
+                          1,
+                          currentHeight > 0 ? targetHeight / currentHeight : 1,
+                        ],
                       }),
                     },
                     {
                       translateY: labelAnimatedValue.interpolate({
                         inputRange: [0, 1],
-                        outputRange: [
-                          innerContainerHeight / 2 - (1.333 * labelHeight) / 2,
-                          0,
-                        ],
+                        outputRange: [0, targetY - currentY],
                       }),
                     },
                     {
                       translateX: labelAnimatedValue.interpolate({
                         inputRange: [0, 1],
                         outputRange: [
-                          (labelWidth / 2) * 1.3 - labelWidth / 2,
                           0,
+                          currentHeight > 0
+                            ? ((currentWidth / 2) * targetHeight) /
+                                currentHeight -
+                              currentWidth / 2
+                            : 0,
                         ],
                       }),
                     },
@@ -311,15 +316,24 @@ const MediumTextInput = (props: TextInputProps) => {
                 },
               ]}
               onLayout={({ nativeEvent }) => {
-                const {
-                  layout: { height, width },
-                } = nativeEvent;
-                setLabelHeight(height);
-                setLabelWidth(width);
+                const { width, height, y } = nativeEvent.layout;
+                setCurrentHeight(height);
+                setCurrentWidth(width);
+                setCurrentY(y);
               }}
             >
               {label}
             </Animated.Text>
+          </View>
+          {label && (
+            <Text
+              style={[defaultLargeStyles.labelStyle, labelStyle]}
+              onLayout={({ nativeEvent }) => {
+                const { height, y } = nativeEvent.layout;
+                setTargetHeight(height);
+                setTargetY(y);
+              }}
+            />
           )}
           <RNTextInput
             ref={textInputRef}
