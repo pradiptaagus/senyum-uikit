@@ -58,7 +58,21 @@ export const defaultLargeStyles = StyleSheet.create({
   labelStyle: {
     fontSize: FontSize[12],
     color: Color.grey[5],
+    marginBottom: Spacing[6],
     alignSelf: 'flex-start',
+  },
+  zoomedLabelStyle: {
+    fontSize: FontSize[16],
+    color: Color.grey[5],
+    alignSelf: 'flex-start',
+  },
+  animatingLabelContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    justifyContent: 'center',
   },
   placeholderStyle: {
     fontSize: FontSize[16],
