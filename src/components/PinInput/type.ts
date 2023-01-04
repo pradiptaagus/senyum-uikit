@@ -8,7 +8,7 @@ export type PinInputProps = {
   securedTextEntry?: boolean;
   size?: 'small' | 'medium' | 'large';
   disabled?: boolean;
-  errorMessage?: string;
+  error?: boolean;
   initialValue?: string;
   onChangeText?: (text: string) => void;
   onComplete?: (text: string) => void;

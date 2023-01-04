@@ -3,12 +3,10 @@ import { Color } from '../../base/Color';
 import { Spacing } from '../../base/Spacing';
 
 const styles = StyleSheet.create({
-  containerStyle: {
-    marginBottom: Spacing[28],
-  },
   innerContainerStyle: {
     flexWrap: 'wrap',
     justifyContent: 'center',
+    alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: 'white',
   },
@@ -78,8 +76,7 @@ export const outlinedStyles = StyleSheet.create({
     borderColor: Color.grey[6],
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: Spacing[8],
-    marginTop: Spacing[8],
+    marginHorizontal: 4,
   },
   disabledInputContainerStyle: {
     backgroundColor: Color.light[5],
@@ -94,8 +91,6 @@ export const underlinedStyles = StyleSheet.create({
     borderColor: Color.grey[6],
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: Spacing[8],
-    marginTop: Spacing[8],
   },
   disabledInputContainerStyle: {},
 });

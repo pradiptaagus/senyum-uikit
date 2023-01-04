@@ -9,7 +9,7 @@ const PinInput = (props: PinInputProps) => {
     autoFocus,
     length = 6,
     style,
-    errorMessage,
+    error,
     initialValue = '',
     onChangeText,
     onComplete,
@@ -25,14 +25,6 @@ const PinInput = (props: PinInputProps) => {
   const [valuesInArray, setValuesInArray] = useState<string[]>([]);
 
   const [activeIndex, setActiveIndex] = useState<number>(-1);
-
-  const error = useMemo(() => {
-    if (errorMessage) {
-      return true;
-    } else {
-      return false;
-    }
-  }, [errorMessage]);
 
   useEffect(() => {
     let newValuesInArray: string[] = [];
@@ -57,7 +49,7 @@ const PinInput = (props: PinInputProps) => {
   }, []);
 
   return (
-    <View style={[styles.containerStyle, style]}>
+    <React.Fragment>
       <View style={styles.hiddenStyle}>
         <TextInput
           autoFocus={autoFocus}
@@ -69,7 +61,7 @@ const PinInput = (props: PinInputProps) => {
           onChangeText={setValues}
         />
       </View>
-      <View style={styles.innerContainerStyle}>
+      <View style={[styles.innerContainerStyle, style]}>
         {valuesInArray.map((value, index) => {
           return (
             <PinInputField
@@ -90,10 +82,7 @@ const PinInput = (props: PinInputProps) => {
           );
         })}
       </View>
-      {errorMessage && (
-        <Text style={styles.errorMessageTextStyle}>{errorMessage}</Text>
-      )}
-    </View>
+    </React.Fragment>
   );
 };
 
