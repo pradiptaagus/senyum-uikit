@@ -7,12 +7,12 @@ type T = {
 export const Shadow: T = {
   1: {
     shadowColor: '#707070',
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.2,
     shadowRadius: 10,
     shadowOffset: {
       width: 0,
-      height: -5,
+      height: 5,
     },
-    elevation: 3,
+    elevation: 5,
   },
 };

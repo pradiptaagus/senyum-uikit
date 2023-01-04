@@ -10,6 +10,7 @@
 | style    | StyleProp<ViewStyle>                              | Yes      | undefined     | The custom style for `Appbar` component                                                                    |
 | variant  | [AppbarVariant](#appbarvariant--default--primary) | Yes      | default       | The variant of `Appbar`, related to the `Appbar` color                                                     |
 | testID   | string                                            | Yes      | undefined     | -                                                                                                          |
+| elevated | boolean                                           | Yes      | true          | Define elevation (andorid) or shadow (IOS) visibility                                                      |
 
 # Appbar.Action
 

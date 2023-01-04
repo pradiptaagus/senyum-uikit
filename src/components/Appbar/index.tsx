@@ -13,6 +13,7 @@ type AppbarProps = {
   style?: StyleProp<ViewStyle>;
   variant?: AppbarVariant;
   testID?: string;
+  elevated?: boolean;
 };
 
 export const AppbarContext = React.createContext<AppbarVariant>('default');
@@ -23,14 +24,20 @@ export const AppbarContext = React.createContext<AppbarVariant>('default');
  * @returns JSX.Element
  */
 const Appbar = (props: AppbarProps) => {
-  const { children, style, variant = 'default', testID } = props;
+  const {
+    children,
+    style,
+    variant = 'default',
+    testID,
+    elevated = true,
+  } = props;
 
   return (
     <View
       style={[
         styles.container,
-        Shadow[1],
         variant === 'primary' && styles.primaryAppbarVariant,
+        elevated && Shadow[1],
         style,
       ]}
       testID={testID}
